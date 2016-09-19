@@ -1,0 +1,10 @@
+<md-button ng-click="qtMenuItem.toggleDropdownMenu()" class="md-raised md-primary side-menu-link">
+    <md-icon ng-if="::(qtMenuItem.item.icon !== undefined)" class="side-menu-icon" md-font-icon="{{::qtMenuItem.item.icon}}"></md-icon>
+    <span translate>{{::qtMenuItem.item.name}}</span>
+    <md-icon class="menu-toggle-icon" md-font-icon="zmdi zmdi-chevron-right" ng-class="{ open: qtMenuItem.item.open }"></md-icon>
+</md-button>
+<ul class="drop-down-list" ng-show="qtMenuItem.item.open">
+    <li ng-repeat="child in qtMenuItem.item.children">
+        <qt-menu-item item="::child"></qt-menu-item>
+    </li>
+</ul>

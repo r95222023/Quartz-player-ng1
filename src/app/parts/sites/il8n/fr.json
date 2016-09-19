@@ -1,0 +1,10 @@
+{
+    "MENU": {
+        "MYSITES": "My sites",
+        "ALLSITES": "All sites",
+        "SITEMENU": "Site config",
+        "SITES": {
+            "CONFIG": "Config"
+        }
+    }
+}

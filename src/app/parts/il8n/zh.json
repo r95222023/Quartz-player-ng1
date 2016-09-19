@@ -1,0 +1,33 @@
+{
+    "MENU": {
+        "MYSITES": "我的網站/應用",
+        "ALLSITES":"所有網站/應用",
+        "ALLUSERS":"所有使用者",
+        "SUPERADMIN":"超級管理員",
+        "FILES":"檔案管理員",
+        "SITESETTING":"網站/應用設定",
+        "TEMPLATES":"網站/應用設計範例",
+        "SETTINGS":{
+            "BASIC":"基本",
+            "ADMIN":"權限",
+            "PAYMENT":"金流設定"
+        },
+        "SITEDESIGN":"網站/應用設計",
+        "DESIGN": {
+            "SETTING":"設定",
+            "PAGEMANAGER":"頁面",
+            "WIDGETMANAGER": "元件"
+        },
+        "PRODUCTSANDCATEGORIES":"產品及分類",
+        "ARTICLESANDCATEGORIES":"文章及分類",
+        "PANDC":{
+            "PRODUCTS":"產品",
+            "ARTICLES":"文章",
+            "CATEGORIES":"分類"
+        },
+        "ANALYTICS":"分析",
+        "ORDERHISTORY":"訂單",
+        "USERS":"使用者"
+    }
+}
+

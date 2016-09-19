@@ -1,0 +1,80 @@
+<div layout="column">
+    <form name="filterForm" class="md-whiteframe-3dp">
+        <div layout='row' layout-margin layout-padding>
+            <md-input-container flex>
+                <label>Filter</label>
+                <md-select ng-model="vm.orderBy">
+                    <md-option ng-repeat="filter in vm.filters" value="{{filter[1]}}">
+                        {{filter[0]}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Equal</label>
+                <input ng-model="vm.equalTo">
+            </md-input-container>
+            <md-input-container ng-if="!vm.equalTo" flex>
+                <label>From</label>
+                <input ng-model="vm.startAt">
+            </md-input-container>
+            <md-input-container ng-if="!vm.equalTo" flex>
+                <label>To</label>
+                <input ng-model="vm.endAt">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-padding>
+            <span flex></span>
+            <md-button class="md-primary md-hue-1 md-raised" ng-click="vm.getFiltered()">
+                OK
+            </md-button>
+        </div>
+
+    </form>
+    <div layout="row" layout-xs="column" layout-wrap>
+        <md-table-container flex>
+            <table md-table md-progress="vm.paginator.promise">
+                <thead md-head md-order="'_id'" md-on-reorder="vm.onReorder">
+                <tr md-row>
+                    <th md-column md-order-by="">ID</th>
+                    <th md-column md-order-by="info/name">Name</th>
+                    <th md-column md-order-by="provider">Provider</th>
+                    <th md-column md-order-by="createdTime">Created Time</th>
+                    <th md-column></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row
+                    ng-repeat="(id, user) in vm.paginator.result.hits">
+                    <td md-cell>{{user._key}}</td>
+                    <td md-cell>{{user.info.name}}</td>
+                    <td md-cell>{{user.provider}}</td>
+                    <td md-cell>{{user.createdTime| date: 'medium'}}</td>
+                    <td md-cell style="width:50px;">
+                        <div layout="row">
+                            <span flex></span>
+                            <md-menu>
+                                <md-button class="md-icon-button" aria-label="more action" ng-click="$mdOpenMenu();$event.stopPropagation();"
+                                           aria-label="more action">
+                                    <md-icon md-font-icon="zmdi zmdi-more-vert"></md-icon>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-menu-item ng-repeat="action in vm.actions">
+                                        <md-button ng-click="vm.action(action[0], user['_key'])" translate="{{action[1]}}"
+                                                   aria-label="{{action[1]}}"></md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+        <md-table-pagination flex="100" md-limit="vm.paginator.size" md-page="vm.paginator.page"
+                             ng-if="vm.paginator.size<vm.paginator.result.total"
+                             md-total="{{vm.paginator.result.total}}"
+                             md-on-paginate="vm.onPaginate" md-page-select></md-table-pagination>
+    </div>
+</div>

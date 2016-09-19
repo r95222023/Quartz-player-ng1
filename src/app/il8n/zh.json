@@ -1,0 +1,88 @@
+{
+    "404": {
+        "TITLE": "404",
+        "HOME": "主頁",
+        "MESSAGE": "找不到主頁",
+        "DESCRIPTION": "抱歉，此頁面不存在。 請回主頁重新開始。"
+    },
+    "500": {
+        "TITLE": "500",
+        "MESSAGE": "出了點問題。",
+        "DESCRIPTION": "對不起，出問題了",
+        "HOME": "回主頁"
+    },
+    "EDITOR":{
+        "SETTINGS":"設定"
+    },
+    "GENERAL": {
+        "FILE":"檔案",
+        "NEW":"新增",
+        "OPEN":"開啟...",
+        "IMPORT":"匯入",
+        "EXPORT":"匯出",
+        "RESPONSIVEMODE":"響應式設計模式",
+        "MEDIAWIDTH":"裝置尺寸",
+        "CSSEDITOR":"CSS 編輯器",
+        "TOOLS":"工具",
+        "PREVIEW":"預覽",
+        "ALL":"所有",
+        "ALLCATE":"所有類別",
+        "UNDO":"復原",
+        "REDO":"取消復原",
+        "SHOW":"顯示",
+        "HIDE":"隱藏",
+        "CANCEL": "取消",
+        "OK": "好",
+        "EDIT": "編輯",
+        "DELETE": "刪除",
+        "COPY":"複製",
+        "VIEW": "檢視",
+        "SAVE":"儲存",
+        "SEARCH":"搜索",
+        "ID":"編號",
+        "NAME":"名稱",
+        "CATEGORY":"類別",
+        "SUBCATEGORY":"子類別",
+        "QUANTITY":"數量",
+        "PRICE":"價格"
+    },
+    "ADMIN": {
+        "TOOLBAR": {
+            "SETTINGS": "設置",
+            "PROFILE": "簡介",
+            "LOGOUT": "登出",
+            "LOGIN": "登入",
+            "SIDEBAR_TOGGLE": "側方清單"
+        },
+        "NOTIFICATIONS": {
+            "ACCOUNT_SETTINGS": "帳戶設定",
+            "CHAT_SETTINGS": "聊天設定",
+            "USER_STATS": "用戶統計",
+            "SERVER_STATS": "服務統計",
+            "SHOW_LOCATION": "顯示我的位置",
+            "SHOW_AVATAR": "查看我的化身",
+            "SEND_NOTIFICATIONS": "送出通知",
+            "ALLOW_BACKUPS": "允許雲端備份",
+            "SHOW_USERNAME": "顯示用戶名稱",
+            "SHOW_PROFILE": "顯示個人資料",
+            "STORAGE_SPACE": "存儲空間(120/160Gb)",
+            "BANDWIDTH_USAGAE": "頻寬使用情況（10/100Gb)",
+            "MEMORY_USAGAE": "記憶體使用情況（1/8Gb)"
+        }
+    },
+    "LANGUAGES": {
+        "CHINESE": "中文",
+        "ENGLISH": "英文",
+        "FRENCH": "法語",
+        "PORTUGUESE": "葡萄牙語"
+    },
+    "TABLES": {
+        "NEXT": "下一頁",
+        "PREV": "前一頁",
+        "OF": "的",
+        "ROWS": "每頁行數:"
+    },
+    "MESSAGES": {
+        "LANGUAGE_CHANGED": "語言已改變"
+    }
+}

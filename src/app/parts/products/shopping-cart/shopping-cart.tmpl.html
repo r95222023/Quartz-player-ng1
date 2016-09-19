@@ -1,0 +1,9 @@
+<div class="padded-content-page overlay-5" style="position:absolute" layout-fill layout-padding layout="column">
+    <md-card class="padded-content-page md-whiteframe-2dp">
+        <ngcart-cart></ngcart-cart>
+    </md-card>
+    <allpay-checkout  stage build-data="vm.buildAllpayOrder" ng-if="loggedIn&&vm.isCartEmpty()">checkout</allpay-checkout>
+    <stripe-checkout build-data="vm.buildStripeOrder" ng-if="loggedIn&&vm.isCartEmpty()">checkout</stripe-checkout>
+
+    <md-button ng-if="!loggedIn">Please log in to checkout</md-button>
+</div>

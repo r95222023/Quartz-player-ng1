@@ -1,0 +1,67 @@
+<div layout="row" layout-wrap layout-padding>
+
+    <md-card flex="50">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Daily orders</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <div ng-if="vm.orderData">
+                <canvas class="chart-bar" chart-data="vm.orderData.results" chart-labels="vm.orderData.labels" chart-legend="true" chart-series="vm.orderData.series"></canvas>
+            </div>
+        </md-card-content>
+    </md-card>
+    <md-card flex="50">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Daily orders</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <div ng-if="vm.orderData">
+                <canvas class="chart-bar" chart-data="vm.data" chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"></canvas>
+            </div>
+        </md-card-content>
+    </md-card>
+
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Top Products in count1</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="product in vm.topProducts1">
+                    <!--<md-checkbox ng-model="item.done"></md-checkbox>-->
+                    <div class="md-list-item-text">
+                        <h3>{{product.name}}</h3>
+                        <p>Count1:{{product.count1}}</p>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Top Products in count2</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-list>
+                <md-list-item class="md-2-line" ng-repeat="product in vm.topProducts2">
+                    <!--<md-checkbox ng-model="item.done"></md-checkbox>-->
+                    <div class="md-list-item-text">
+                        <h3>{{product.name}}</h3>
+                        <p>Count2:{{product.count2}}</p>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+
+
+</div>

@@ -1,0 +1,15 @@
+{
+    "DESIGN":{
+        "PROP":"Properties",
+        "LAYOUT":"Layout",
+        "EXTERNAL":"External Library"
+    },
+    "MENU": {
+
+        "PAGES": {
+            "MENUNAME": "Pages",
+            "PAGEMANAGER":"Pages",
+            "WIDGETMANAGER": "Widgets"
+        }
+    }
+}

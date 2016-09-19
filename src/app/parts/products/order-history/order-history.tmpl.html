@@ -1,0 +1,95 @@
+
+<md-content>
+    <md-toolbar class="md-table-toolbar md-default" aria-label="search">
+        <div class="md-toolbar-tools" layout="row">
+            <span>Orders</span>
+            <div flex></div>
+            <md-button ng-hide="vm.orderSelected.length"
+                       class="md-icon-button toolbar-button"
+                       style="color:black"
+                       ng-click="vm.showFilter = !vm.showFilter">
+                <md-icon md-font-icon="zmdi zmdi-filter-list"></md-icon>
+            </md-button>
+            <md-menu ng-hide="!vm.orderSelected.length">
+                <md-button class="md-icon-button" aria-label="more action" ng-click="$mdOpenMenu()"
+                           aria-label="more action">
+                    <md-icon md-font-icon="zmdi zmdi-more-vert"></md-icon>
+                </md-button>
+                <md-menu-content width="3">
+                    <md-menu-item ng-repeat="status in vm.statuses">
+                        <md-button ng-click="vm.changeStatus(status)" translate="{{status}}"
+                                   aria-label="{{status}}"></md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+
+
+    </md-toolbar>
+    <form name="filterForm" ng-show="vm.showFilter && !vm.orderSelected.length" ng-submit="vm.getFiltered()" class="md-whiteframe-3dp">
+        <div layout='row' layout-margin layout-padding>
+            <md-input-container flex>
+                <label>Filter</label>
+                <md-select ng-model="vm.orderBy">
+                    <md-option ng-repeat="filter in vm.filters" value="{{filter[1]}}">
+                        {{filter[0]}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex>
+                <label>From</label>
+                <input ng-model="vm.startAt">
+            </md-input-container>
+            <md-input-container flex>
+                <label>To</label>
+                <input ng-model="vm.endAt">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-padding>
+            <span flex></span>
+            <md-button class="md-primary md-hue-1 md-raised" type="submit">
+                OK
+            </md-button>
+            <md-button class="md-accent md-raised" ng-click="vm.showFilter = !vm.showFilter">
+                Cancel
+            </md-button>
+        </div>
+
+    </form>
+
+
+    <md-table-container>
+        <table md-table md-row-select ng-model="vm.orderSelected" md-progress="vm.paginator.promise">
+            <thead md-head md-order="'_id'" md-on-reorder="vm.onReorder">
+            <tr md-row>
+                <th md-column md-order-by="id"><span>Order</span></th>
+                <th md-column md-order-by="clientInfo.uid">Client</th>
+                <th md-column md-order-by="paymentType">Payment</th>
+                <th md-column md-order-by="status">Status</th>
+                <th md-column md-order-by="createdTime">Created Time</th>
+                <th md-column md-numeric md-order-by="totalAmount">Total amount</th>
+
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row md-select="order.id" md-select-id="{{order.id}}" md-auto-select
+                ng-repeat="(index, order) in vm.paginator.result.hits">
+                <td md-cell>{{order.id}}</td>
+                <td md-cell>{{order.clientInfo.uid}}</td>
+                <td md-cell>{{order.paymentType}}</td>
+                <td md-cell>{{order.status}}</td>
+                <td md-cell>{{order.createdTime| date: 'medium'}}</td>
+                <td md-cell>{{order.totalAmount}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="vm.paginator.size" md-page="vm.paginator.page"
+                         md-total="{{vm.paginator.result.total}}"
+                         md-on-paginate="vm.onPaginate" md-page-select></md-table-pagination>
+
+</md-content>
+
+
+
+

@@ -1,0 +1,33 @@
+<md-menu>
+    <md-button aria-label="Open user menu" ng-click="$mdOpenMenu()" aria-label="side navigation">
+        <img  class="toolbar-user-avatar" ng-src="{{user.info.photoURL}}">
+        {{user.info.name}}
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item>
+            <md-button ng-click="userMenu.toggleNotificationsTab(2)" aria-label="side navigation">
+                <md-icon md-font-icon="fa fa-cog"></md-icon>
+                <span translate="ADMIN.TOOLBAR.SETTINGS"></span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ui-sref="quartz.admin-default.profile" aria-label="side navigation">
+                <md-icon md-font-icon="fa fa-user"></md-icon>
+                <span translate="ADMIN.TOOLBAR.PROFILE"></span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button ui-sref="quartz.admin-default.yourOrders" aria-label="side navigation">
+                <md-icon md-font-icon="fa fa-list"></md-icon>
+                <span translate="ADMIN.TOOLBAR.YOURORDERS"></span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-divider></md-menu-divider>
+        <md-menu-item>
+            <md-button ng-click="userMenu.logout()" aria-label="side navigation">
+                <md-icon md-font-icon="fa fa-sign-out"></md-icon>
+                <span translate="ADMIN.TOOLBAR.LOGOUT"></span>
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

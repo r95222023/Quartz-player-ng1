@@ -1,0 +1,5 @@
+<md-button ng-click="qtMenuItem.openLink(qtMenuItem.item)" class="md-primary md-raised side-menu-link" ng-class="{ 'md-hue-1': qtMenuItem.item.active }">
+    <md-icon ng-if="::(qtMenuItem.item.icon !== undefined)" class="side-menu-icon" md-font-icon="{{::qtMenuItem.item.icon}}"></md-icon>
+    <span translate>{{::qtMenuItem.item.name}}</span>
+    <small ng-if="qtMenuItem.item.badge" theme-background="accent" class="side-menu-badge">{{::qtMenuItem.item.badge}}</small>
+</md-button>

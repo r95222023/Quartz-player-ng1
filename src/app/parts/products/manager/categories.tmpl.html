@@ -1,0 +1,73 @@
+<div layout="column">
+    <div>
+        <md-button ng-if="vm.cateEdit" class="md-fab" aria-label="fab button"
+                   style="position: fixed; bottom: 40px; right: 40px"
+                   ng-click="vm.addCate()">
+            <md-icon md-font-icon="zmdi zmdi-plus"></md-icon>
+        </md-button>
+        <md-button ng-if="!vm.cateEdit"
+                   ng-click="vm.cateEdit=!vm.cateEdit"
+                   class="md-raised md-primary"
+                   aria-label="edit mode">
+            Edit Mode
+        </md-button>
+        <md-button ng-if="vm.cateEdit"
+                   ng-click="vm.saveCate();vm.cateEdit=false"
+                   aria-label="save categories">
+            Save
+        </md-button>
+        <md-button ng-if="vm.cateEdit"
+                   ng-click="vm.cateEdit=!vm.cateEdit"
+                   aria-label="save categories">
+            Cancel
+        </md-button>
+    </div>
+
+    <div layout="row" layout-xs="column" layout-wrap layout-padding class="md-whiteframe-2dp">
+        <div flex="100">
+            <h2>Categories</h2>
+        </div>
+        <div flex-gt-xs="33" flex-gt-sm="25"
+             ng-repeat="cate in vm.categories track by $index">
+            <md-card class="md-whiteframe-2dp">
+
+                <md-card-title>
+                    <md-card-title-text>
+                        <span ng-if="!vm.cateEdit" class="md-headline">{{cate[0]}}</span>
+                        <input ng-if="vm.cateEdit" ng-model="vm.categories[$index][0]">
+                    </md-card-title-text>
+                </md-card-title>
+
+                <md-card-content layout-align="center center">
+                    <ul>
+                        <li ng-repeat="sub in cate[1] track by $index">
+                                    <span ng-if="!vm.cateEdit">
+                                        {{sub}}
+                                    </span>
+                                    <span ng-if="vm.cateEdit">
+                                        <input ng-model="vm.categories[$parent.$parent.$index][1][$index]">
+                                        <a href style="float: right"
+                                           ng-click="vm.removeCate($parent.$parent.$index, $index)">remove</a>
+                                    </span>
+                        </li>
+                        <li>
+                                    <span ng-if="vm.cateEdit">
+                                        <input ng-model="vm.tempItem[$index]">
+                                        <a href style="float: right" ng-click="vm.addItem($index, vm.tempItem[$index])">add</a>
+                                    </span>
+                        </li>
+                    </ul>
+                </md-card-content>
+                <md-card-actions ng-if="vm.cateEdit" layout="row" layout-align="start center">
+
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="vm.removeCate($parent.$index)"
+                               aria-label="delete product">
+                        <md-icon md-font-icon="fa fa-trash-o"></md-icon>
+                    </md-button>
+                </md-card-actions>
+
+            </md-card>
+        </div>
+    </div>
+</div>

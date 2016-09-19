@@ -1,0 +1,126 @@
+{
+    "MENU": {
+        "AUTH": {
+            "AUTH": "認證",
+            "LOGIN": "登入",
+            "SIGN_UP": "註冊",
+            "FORGOT": "忘記密碼",
+            "LOCK": "鎖住頁面",
+            "PROFILE": "個人簡介"
+        }
+    },
+    "HEADER": {
+        "HEADING": "Quartz"
+    },
+    "LOGIN": {
+        "TITLE": "登入",
+        "EMAIL": {
+            "LABEL": "電子郵件",
+            "PLEASE_ENTER": "請輸入您的電子郵件。",
+            "PLEASE_VALID": "請輸入有效的電子郵件。"
+        },
+        "PASSWORD": {
+            "LABEL": "密碼",
+            "PLEASE_ENTER": "請輸入您的密碼"
+        },
+        "REMEMBER": "保持登入",
+        "FORGOT": "忘記密碼?",
+        "BUTTON": "登入",
+        "SIGNUP_LINK": "沒有帳戶? 現在創一個",
+        "SOCIAL": {
+            "OR": "或以下列方法登入"
+        },
+        "MESSAGES": {
+            "ACCESS_DENIED": "用戶名或密碼不正確"
+        }
+    },
+    "SIGNUP": {
+        "TITLE": "註冊",
+        "NAME": {
+            "LABEL": "名字",
+            "PLEASE_ENTER": "請輸入您的姓名"
+        },
+        "EMAIL": {
+            "LABEL": "電子郵件",
+            "PLEASE_ENTER": "請輸入您的電子郵件",
+            "PLEASE_VALID": "請輸入有效的電子郵件"
+        },
+        "PASSWORD": {
+            "LABEL": "密碼",
+            "PLEASE_ENTER": "請輸入密碼",
+            "MIN_LENGTH": "您的密碼必須超過8個字符",
+            "SAME_PASSWORD": "請確認您的密碼"
+        },
+        "PASSWORD_CONFIRM": {
+            "LABEL": "確認密碼"
+        },
+        "BUTTON": "註冊",
+        "HAVE_LOGIN": "已經有帳號？ 由此登入",
+        "MESSAGES": {
+            "CONFIRM_SENT": "確認發送",
+            "LOGIN_NOW": "登入",
+            "NO_SIGNUP": "無法登入"
+        }
+    },
+    "LOCK": {
+        "TITLE": "歡迎回來",
+        "LOGGED_OUT": "閒置過久自動登出。 請輸入您的密碼重新登入",
+        "PASSWORD": {
+            "LABEL": "密碼",
+            "PLEASE_ENTER": "請輸入您的密碼"
+        },
+        "LOGIN": "登入",
+        "LOGOUT": "登出",
+        "MESSAGES": {
+            "ACCESS_DENIED": "用戶名或密碼不正確"
+        }
+    },
+    "FORGOT": {
+        "TITLE": "忘記密碼?",
+        "ENTER_EMAIL": "請輸入您的電子郵件",
+        "EMAIL": {
+            "LABEL": "電子郵件",
+            "PLEASE_ENTER": "請輸入您的電子郵件。",
+            "PLEASE_VALID": "請輸入有效的電子郵件。"
+        },
+        "RESET": "重設密碼",
+        "LOGIN": "記得密碼? 由此登入",
+        "MESSAGES": {
+            "RESET_SENT": "已寄出新密碼至您指定的電子郵件信箱",
+            "LOGIN_NOW": "登入",
+            "NO_RESET": "無法重新設定密碼"
+        }
+    },
+    "PROFILE": {
+        "TITLE": "用戶簡介",
+        "NAME": {
+            "LABEL": "名字",
+            "PLEASE_ENTER": "請輸入您的姓名"
+        },
+        "EMAIL": {
+            "LABEL": "電子郵件",
+            "PLEASE_ENTER": "請輸入您的電子郵件",
+            "PLEASE_VALID": "請輸入有效的電子郵件"
+        },
+        "WEBSITE": {
+            "LABEL": "網站"
+        },
+        "BIO": {
+            "LABEL": "自介"
+        },
+        "TWITTER": {
+            "LABEL": "twitter"
+        },
+        "PASSWORD": {
+            "LABEL": "新密碼",
+            "CURRENT": "目前的",
+            "PLEASE_ENTER": "請輸入密碼",
+            "MIN_LENGTH": "您的密碼必須超過8個字符",
+            "SAME_PASSWORD": "請確認您的密碼"
+        },
+        "PASSWORD_CONFIRM": {
+            "LABEL": "確認密碼"
+        },
+        "BUTTON": "更新密碼"
+    }
+}

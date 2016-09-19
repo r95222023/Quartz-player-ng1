@@ -1,0 +1,125 @@
+<div layout="column">
+    <md-button class="md-fab" aria-label="fab button"
+               style="position: fixed; bottom: 40px; right: 40px"
+               ng-click="vm.showEditor($event)">
+        <md-icon md-font-icon="zmdi zmdi-plus"></md-icon>
+    </md-button>
+    <md-content>
+
+        <md-toolbar class="md-table-toolbar md-default"
+                    aria-label="search">
+            <div class="md-toolbar-tools" layout="row">
+                <md-button translate="GENERAL.SEARCH"
+                           class="toolbar-button"
+                           style="color:black"
+                           ng-click="vm.showFilter = !vm.showFilter">
+                </md-button>
+                <md-button class="toolbar-button"
+                           style="color:black"
+                           ng-click="vm.orderBy='itemId';vm.startAt='';vm.endAt='';vm.getFiltered()">
+                    All
+                </md-button>
+                <md-button class="toolbar-button"
+                           ng-repeat="cate in vm.getCate()"
+                           style="color:black"
+                           ng-click="vm.orderBy='category';vm.equalTo=$index;vm.getFiltered()">
+                    {{cate[0]}}
+                </md-button>
+
+            </div>
+
+        </md-toolbar>
+        <md-divider></md-divider>
+        <form name="filterForm" ng-show="vm.showFilter"
+              ng-submit="vm.getFiltered()" class="md-whiteframe-3dp">
+            <div layout='row' layout-margin layout-padding>
+                <md-input-container flex>
+                    <label>Filter</label>
+                    <md-select ng-model="vm.orderBy">
+                        <md-option ng-repeat="filter in vm.filters" value="{{filter[1]}}">
+                            {{filter[0]}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex ng-if="vm.orderBy!=='category'">
+                    <label>From</label>
+                    <input ng-model="vm.startAt">
+                </md-input-container>
+                <md-input-container flex ng-if="vm.orderBy!=='category'">
+                    <label>To</label>
+                    <input ng-model="vm.endAt">
+                </md-input-container>
+                <md-input-container class="md-block" flex ng-if="vm.orderBy==='category'">
+                    <label>Equal to</label>
+                    <md-select ng-model="vm.equalTo">
+                        <md-option ng-repeat="cate in vm.getCate()" value="{{$index}}">
+                            {{cate[0]}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row" layout-padding>
+                <span flex></span>
+                <md-button class="md-primary md-hue-1 md-raised" type="submit">
+                    OK
+                </md-button>
+                <md-button class="md-accent md-raised" ng-click="vm.showFilter = !vm.showFilter">
+                    Cancel
+                </md-button>
+            </div>
+
+        </form>
+
+
+        <md-table-container>
+            <table md-table md-progress="vm.paginator.promise">
+                <thead md-head md-order="'_id'" md-on-reorder="vm.onReorder">
+                <tr md-row>
+                    <th md-column md-order-by="itemId">{{'GENERAL.ID'|translate}}</th>
+                    <th md-column md-order-by="itemName">{{'GENERAL.NAME'|translate}}</th>
+                    <th md-column md-order-by="category">{{'GENERAL.CATEGORY'|translate}}</th>
+                    <th md-column>{{'GENERAL.SUBCATEGORY'|translate}}</th>
+                    <th md-column md-numeric md-order-by="quantity">{{'GENERAL.QUANTITY'|translate}}</th>
+                    <th md-column md-numeric md-order-by="price">{{'GENERAL.PRICE'|translate}}</th>
+                    <th md-column></th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row md-select="product.itemId" md-select-id="{{product.itemId}}" md-auto-select
+                    ng-repeat="(index, product) in vm.paginator.result.hits">
+                    <td md-cell>{{product.itemId}}</td>
+                    <td md-cell>{{product.itemName}}</td>
+                    <td md-cell>{{vm.getCate()[product.category][0]}}</td>
+                    <td md-cell>{{vm.getCate()[product.category][1][product.subcategory]}}</td>
+                    <td md-cell>{{product.quantity}}</td>
+                    <td md-cell>{{product.price}}</td>
+                    <td md-cell style="width:50px;">
+                        <div layout="row">
+                            <span flex></span>
+                            <md-menu>
+                                <md-button class="md-icon-button" aria-label="more action"
+                                           ng-click="$mdOpenMenu();$event.stopPropagation();"
+                                           aria-label="more action">
+                                    <md-icon md-font-icon="zmdi zmdi-more-vert"></md-icon>
+                                </md-button>
+                                <md-menu-content width="3">
+                                    <md-menu-item ng-repeat="action in vm.actions">
+                                        <md-button ng-click="vm.action(action[0], product.itemId,$event)" translate="{{action[1]}}"
+                                                   aria-label="{{action[1]}}"></md-button>
+                                    </md-menu-item>
+                                </md-menu-content>
+                            </md-menu>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+        <md-table-pagination md-limit="vm.paginator.size" md-page="vm.paginator.page"
+                             md-total="{{vm.paginator.result.total}}"
+                             md-limit-options="[10, 25, 50, 100]"
+                             md-on-paginate="vm.onPaginate" md-page-select></md-table-pagination>
+
+    </md-content>
+</div>

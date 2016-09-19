@@ -1,0 +1,30 @@
+{
+    "MENU": {
+        "MYSITES": "My Sites",
+        "ALLSITES":"All Sites",
+        "ALLUSERS":"All Users",
+        "SUPERADMIN":"Super Admin",
+        "FILES":"File Manager",
+        "SITESETTING":"Site Settings",
+        "SETTINGS":{
+            "BASIC":"Basics",
+            "ADMIN":"Administrators",
+            "PAYMENT":"Payment"
+        },
+        "SITEDESIGN":"Site Design",
+        "DESIGN": {
+            "SETTING":"Settings",
+            "PAGEMANAGER":"Pages",
+            "WIDGETMANAGER": "Widgets"
+        },
+        "PRODUCTSANDCATEGORIES":"Products And Categories",
+        "PANDC":{
+            "PRODUCTS":"Products",
+            "CATEGORIES":"Categories"
+        },
+        "ANALYTICS":"Analytics",
+        "ORDERHISTORY":"Orders",
+        "USERS":"Users"
+    }
+}
+

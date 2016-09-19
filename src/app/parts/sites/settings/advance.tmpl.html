@@ -1,0 +1,44 @@
+<md-tabs md-dynamic-height md-border-bottom md-selected="vm.selectedSettingsTab">
+    <md-tab label="{{'DESIGN.EXTERNAL'|translate}}">
+        <md-content class="md-padding">
+            <p>Add External Packages</p><br>
+            <div layout="row" layout-wrap>
+                <md-input-container flex="100" ng-repeat="(srcIndex, src) in vm.sources track by srcIndex">
+                    <label></label>
+                    <input type='text' ng-model="vm.sources[srcIndex]">
+                    <md-icon md-font-icon="fa fa-times" style="cursor:pointer;"
+                             ng-click="vm.removeSource(srcIndex)"></md-icon>
+                </md-input-container>
+                <md-input-container flex="100">
+                    <label>External Lib</label>
+                    <input type='text' ng-model="newSource">
+                    <md-icon md-font-icon="fa fa-plus" style="cursor:pointer" ng-click="vm.addSource(newSource);newSource=''"></md-icon>
+                </md-input-container>
+                <md-button ng-click="vm.update()">Update</md-button>
+            </div>
+
+        </md-content>
+
+    </md-tab>
+    <md-tab label="{{'DESIGN.TEMPLATES'|translate}}">
+        <md-content layout="row" class="md-padding" ng-controller="TemplateCtrl as tmplCtrl">
+            <div flex-gt-xs="33" flex-gt-sm="25" flex-gt-md="20"
+                 ng-repeat="tmpl in tmplCtrl.pagination.result.hits">
+                <md-card>
+                    <!--<img class="md-card-image" ng-src="{{product._source.image}}">-->
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{tmpl.siteName}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content layout-align="center center">
+                        <div class="content-padded">
+                        </div>
+                        <md-button ng-click="tmplCtrl.applyTemplate(tmpl.siteName)">Use this template</md-button>
+                    </md-card-content>
+                </md-card>
+            </div>
+
+        </md-content>
+    </md-tab>
+</md-tabs>
