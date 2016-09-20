@@ -108,11 +108,7 @@
                     return def.promise
                 };
                 if (toState.name === 'customPage' || toState.name === 'previewFrame') {
-                    if (sitesService.config && sitesService.config.sources) {
-                        console.log('reloading');
-                        $window.location.reload();
-                    }
-                    getPreload(def);
+                    getPreload(def.resolve,def.reject);
                 } else {
                     def.resolve(sitesService);
                 }
@@ -120,9 +116,10 @@
 
         }
 
-        function getPreload(def) {
+        function getPreload(resolve,reject) {
             $firebaseStorage.getWithCache('site-config-preload').then(function (res) {
                 var _res = res || {};
+                console.log(res)
                 $lazyLoad.loadSite(_res).then(function () {
                     sitesService.config = _res;
                     if(_res.title) _core.siteUtil.changeTitle(_res.title);
@@ -140,7 +137,7 @@
                     delete sitesService.preLoading;
 
                     $rootScope.sitesService = sitesService;
-                    def.resolve(sitesService);
+                    resolve(sitesService);
                 });
             });
         }

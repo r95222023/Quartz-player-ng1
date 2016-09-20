@@ -4,7 +4,6 @@
     angular
         .module('quartz.components', [
             'ui.router',
-            'pascalprecht.translate',
-            'oc.lazyLoad'
+            'pascalprecht.translate'
         ]);
 })();

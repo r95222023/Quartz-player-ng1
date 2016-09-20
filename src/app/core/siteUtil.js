@@ -47,5 +47,5 @@
         //     document.head.removeChild(oldTitle);
         // }
         // document.head.appendChild(title);
-    }
+    };
 })();

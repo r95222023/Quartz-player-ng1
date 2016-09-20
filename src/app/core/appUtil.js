@@ -19,10 +19,10 @@
 
 
         paths = {
-            'order-analysis': site+'/orders/analysis/:path',
-            'order-analysis-month': site+'/orders/'+analysisMonth,
-            'order-analysis-week': site+'/orders/'+analysisWeek,
-            'order-analysis-date': site+'/orders/'+analysisDate,
+            'order-analysis': site + '/orders/analysis/:path',
+            'order-analysis-month': site + '/orders/' + analysisMonth,
+            'order-analysis-week': site + '/orders/' + analysisWeek,
+            'order-analysis-date': site + '/orders/' + analysisDate,
 
             'servers': 'servers',
             'queue': 'queue',
@@ -126,6 +126,10 @@
         var self = this;
         if (this.siteName) {
             return Promise.resolve(this.siteName);
+        } else if (location.href.search('localhost') !== -1||location.href.search('firebaseapp\.com') !== -1) {
+            var regEx = /#!\/(.*?)\//;
+            var match = location.href.match(regEx);
+            return Promise.resolve(match ? match[1] : 'default');
         } else {
             return new Promise(function (resolve, reject) {
                 var url = location.href,
@@ -151,6 +155,22 @@
 
     AppUtil.prototype.setSiteName = function (siteName) {
         this.siteName = siteName;
+    };
+
+    var sitePreload = {};
+    AppUtil.prototype.getSitePreload = function () {
+        var self = this;
+        return new Promise(function (resolve, reject) {
+            self.getSiteName().then(function (siteName) {
+                if (sitePreload[siteName]) {
+                    resolve(sitePreload[siteName]);
+                } else {
+                    self.storage.getWithCache('site-config-preload?siteName=' + siteName).then(function (res) {
+                        resolve(res);
+                    }).catch(reject);
+                }
+            })
+        });
     };
 
     function formalizeKey(key) {

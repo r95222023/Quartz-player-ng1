@@ -10,10 +10,43 @@
         module.exports = Loader
     }
 
+    var COMMONPACKAGES = {
+        ngMaterial: {
+            v:'1.1.0',
+            ngModule:'ngMaterial',
+            css: 'https://ajax.googleapis.com/ajax/libs/angular_material/:version/angular-material.min.css',
+            js: 'https://ajax.googleapis.com/ajax/libs/angular_material/:version/angular-material.min.js'
+        }
+    };
+
     function Loader(util) {
         //constructor
         this.util = util;
     }
+
+    Loader.prototype.loadPackages = function (name, opt, ngModules) {
+        var _opt = opt||{};
+        var version = _opt.version||COMMONPACKAGES[name].v;
+        var loadPromises = [];
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+        if(_opt.js!==false) loadPromises.push(new Promise(function (resolve, reject) {
+            script.onload = resolve;
+            document.body.appendChild(script);
+            script.src = COMMONPACKAGES[name].js.replace(':version', version);
+        }));
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = COMMONPACKAGES[name].css.replace(':version', version);
+        if(_opt.css!==false) loadPromises.push(new Promise(function (resolve, reject) {
+            link.onload = resolve;
+            document.head.appendChild(link);
+        }));
+
+        if(COMMONPACKAGES[name].ngModule) ngModules.push(COMMONPACKAGES[name].ngModule);
+        return Promise.all(loadPromises);
+    };
 
 
     Loader.prototype.getExternalSourceUrls = function (sources, siteName) {
@@ -34,51 +67,37 @@
 
     Loader.prototype.getExternalSourceFromHtml = function (html) {
         var res = {},
-            _html=html+'';
+            _html = html + '';
 
-        res.scriptRegEx=/<script[^>]*>[\s\S]*?<\/script>/gm;
-        res.cssRegEx= new RegExp('<link[^>]*.css[^>]*>', 'gm');
-        res.scriptAttrs = ['src', 'async', 'defer', 'type','innerHtml'];
+        res.scriptRegEx = /<script[^>]*>[\s\S]*?<\/script>/gm;
+        res.cssRegEx = new RegExp('<link[^>]*.css[^>]*>', 'gm');
+        res.scriptAttrs = ['src', 'async', 'defer', 'type', 'innerHtml'];
         res.cssAttrs = ['type', 'href', 'rel', 'media'];
-        res.sources=[];
-        //
-        // var jsArr = [],
-        //     cssArr = [],
-        //     jsAttrs = ['src', 'async', 'defer', 'type'],
-        //     cssAttrs = ['type', 'href', 'rel', 'media'],
-        //     jsRegEx = new RegExp('<script.*\/script>', 'g'),
-        //     cssRegEx = new RegExp('<link.*>', 'g');
-        //
-        // var jsMatch = html.match(jsRegEx),
-        //     cssMatch = html.match(cssRegEx);
-        //
-        // jsMatch.forEach(function (scriptStr, index) {
-        //     jsArr[index] = {};
-        //     jsAttrs.forEach(function (attr) {
-        //         jsArr[index][attr] = scriptStr.match(getAttrRegEx(attr))[0];
-        //     })
-        // });
+        res.sources = [];
 
-        ['script','css'].forEach(function(type){
-            res[type]=[];
-            (html.match(res[type+'RegEx'])||[]).forEach(function(matchStr,index){
-                res[type][index]={};
-                res[type+'Attrs'].forEach(function (attr) {
-                    res[type][index][attr==='href'? 'src':attr]=(matchStr.match(getAttrRegEx(attr))||[])[1];
+        ['script', 'css'].forEach(function (type) {
+            res[type] = [];
+            (html.match(res[type + 'RegEx']) || []).forEach(function (matchStr, index) {
+                res[type][index] = {};
+                res[type + 'Attrs'].forEach(function (attr) {
+                    res[type][index][attr === 'href' ? 'src' : attr] = (matchStr.match(getAttrRegEx(attr)) || [])[1];
                 });
-                if(type==='script'){res[type][index].defer=true;}
+                if (type === 'script') {
+                    res[type][index].defer = true;
+                }
                 // var source=res[type][index].src||res[type][index].href;
                 res.sources.push(res[type][index]);
-                _html=_html.replace(matchStr,'');
+                _html = _html.replace(matchStr, '');
             })
         });
 
 
         function getAttrRegEx(attr) {
-            var regExStr=(attr==='innerHtml')? '>([\\s\\S]*)<':'<[\\s\\S]*'+attr + '[\\s\\S]*?=[\\s\\S]*?[\'\"]([\\s\\S]*?)[\'\"][\\s\\S]*?>';
+            var regExStr = (attr === 'innerHtml') ? '>([\\s\\S]*)<' : '<[\\s\\S]*' + attr + '[\\s\\S]*?=[\\s\\S]*?[\'\"]([\\s\\S]*?)[\'\"][\\s\\S]*?>';
 
             return new RegExp(regExStr);
         }
-        return {script:res.script,css:res.css, sources:res.sources, html:_html};
+
+        return {script: res.script, css: res.css, sources: res.sources, html: _html};
     };
 })();

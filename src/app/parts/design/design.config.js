@@ -17,10 +17,6 @@
                     pageName: 'index',
                     params: '',
                     params2: '',
-                    cate: '',
-                    subCate: '',
-                    queryString: '',
-                    tag: '',
                     devMode: ''
                 },
                 resolve: {
