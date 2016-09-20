@@ -6,7 +6,7 @@
         .run(runFunction);
 
     /* @ngInject */
-    function runFunction($rootScope, Idle, $window, $http, $state, $mdSidenav, qtMenu, qtSettings, $firebase, config) {
+    function runFunction($rootScope, $window, config) {
         //// add a class to the body if we are on windows
         if ($window.navigator.platform.indexOf('Win') !== -1) {
             $rootScope.bodyClasses = ['os-windows'];

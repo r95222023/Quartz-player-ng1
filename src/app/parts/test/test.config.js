@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -6,15 +6,14 @@
         .config(moduleConfig);
 
     /* @ngInject */
-    function moduleConfig($stateProvider, qtMenuProvider) {
-
+    function moduleConfig($stateProvider) {
         $stateProvider
-        .state('quartz.admin-default.test', {
-            url: '/:siteName/test',
-            templateUrl: 'app/parts/test/test.tmpl.html',
-            // set the controller to load for this page
-            controller: 'TestPageController',
-            controllerAs: 'vm'
-        });
+            .state('playertest', {
+                url: '/admin/test',
+                templateUrl: 'app/parts/test/test.tmpl.html',
+                // set the controller to load for this page
+                controller: 'TestPageController',
+                controllerAs: 'vm'
+            });
     }
 })();

@@ -7,7 +7,7 @@
         .run(run);
 
     /* @ngInject */
-    function SitesService($rootScope, $firebase, $firebaseStorage, snippets, $q, indexService) {
+    function SitesService($firebase, $firebaseStorage, snippets, $q, indexService) {
         function rectifySiteName(siteName) {
             return siteName.trim().replace(".", "_")
         }
@@ -89,7 +89,7 @@
 
 
     /* @ngInject */
-    function run($q, $window, $lazyLoad, config, $rootScope,$transitions, $state, qtMenu, sitesService, $firebaseStorage) {
+    function run($q, $window, $lazyLoad, config, $rootScope,$transitions, $state, sitesService, $firebaseStorage) {
 
         function setSite(siteName, toState, reset) {
             _core.util.setSiteName(siteName);
@@ -182,15 +182,7 @@
 
                 sitesService.pageName = toParams.pageName;
 
-                if (_core.util.siteName) {
-                    var siteName = _core.util.siteName;
-
-                    qtMenu.removeGroup("siteSelected");
-                    qtMenu.addGroup("siteSelected", {siteName: siteName});
-                }
             });
-        } else {
-            qtMenu.addGroup("siteSelected");
         }
     }
 })();

@@ -3,8 +3,8 @@
     angular
         .module('app', [
             'quartz',
-            'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages', 'ngMaterial',
-            'ui.router', 'pascalprecht.translate', 'LocalStorageModule', 'angularMoment', 'textAngular', 'md.data.table', angularDragula(angular),'ngFileUpload',
+            'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
+            'ui.router', 'pascalprecht.translate', 'LocalStorageModule', 'angularMoment',
             //'seed-module',
             // uncomment above to activate the example seed module
             // 'app.examples',
@@ -41,8 +41,8 @@
                     shipping: 0,
                     taxRate: 0,
                     serverFb: 'quartz', /*https://quartz.firebaseio.com*/
-                    home:'quartz.admin-default.mysites',
-                    defaultUrl:'/admin/mysites',
+                    home:'quartzplayertest',
+                    defaultUrl:'/admin/test',
                     // where to redirect users if they need to authenticate
                     loginRedirectState:'authentication.login'
                 },snap.val()));

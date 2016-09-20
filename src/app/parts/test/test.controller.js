@@ -6,7 +6,7 @@
         .controller('TestPageController', TestPageController);
 
     /* @ngInject */
-    function TestPageController($firebase, $firebaseStorage, snippets,$timeout, analysisService, qtNotificationsService, $state, $mdDialog, config) {
+    function TestPageController($firebase, $firebaseStorage, snippets,$timeout) {
         var vm = this,
             to2dig = snippets.to2dig;
         vm.uploadFiles = function(files, errFiles) {

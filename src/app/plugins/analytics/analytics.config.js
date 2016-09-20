@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.plugins.allpay')
+        .module('app.plugins.analytics')
         .config(/* @ngInject */ function () {
             //
         })
