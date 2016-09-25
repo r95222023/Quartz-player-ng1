@@ -179,9 +179,6 @@
             return content
         }
 
-
-
-
         function compile(containers) {
             var html = '';
             angular.forEach(containers, function (container) {
@@ -193,7 +190,7 @@
         function compileAll(containers, canvas){
             var _canvas=angular.copy(canvas)||{};
             _canvas.content ='<!--include-->';
-            _canvas.tag='md-content';
+            _canvas.tag='div';
             _canvas.style =  _canvas.style||'';
             return compileTag(_canvas).replace('<!--include-->', compile(containers))
         }

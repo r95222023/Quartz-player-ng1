@@ -22,7 +22,7 @@
 
         if (!refUrl) {
             return database.ref().root;
-        } else if (refUrl.search('://') !== -1) {
+        } else if (refUrl.search('//') !== -1) {
             ref = database.refFromURL(this.util.parseRefUrl(refUrl));
         } else {
             ref = database.ref(this.util.parseRefUrl(refUrl, opt));

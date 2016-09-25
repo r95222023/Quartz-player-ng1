@@ -6,8 +6,7 @@
         .config(pagesConfig);
 
     /* @ngInject */
-    function pagesConfig($stateProvider, $translatePartialLoaderProvider) {
-        $translatePartialLoaderProvider.addPart('app/parts/design');
+    function pagesConfig($stateProvider) {
         $stateProvider
             .state('customPage', {
                 url: '/:siteName/:pageName/?id&params&params2&cate&subCate&queryString&tag&devMode',

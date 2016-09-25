@@ -133,7 +133,7 @@
         } else {
             return new Promise(function (resolve, reject) {
                 var url = location.href,
-                    domain = url.split('://')[1].split('/')[0];
+                    domain = url.split('//')[1].split('/')[0];
 
                 self.database.queryRef('sites', {
                     params: {type: 'list'},

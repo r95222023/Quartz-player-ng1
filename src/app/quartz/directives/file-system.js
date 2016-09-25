@@ -14,7 +14,7 @@
         };
 
         function link($scope, $element, attrs){
-            if(attrs['fsSrc'].search('://')!==-1) {
+            if(attrs['fsSrc'].search('//')!==-1) {
                 attrs.$set('src', attrs['fsSrc']);
                 return;
             }
@@ -34,7 +34,7 @@
         };
 
         function link($scope, $element, attrs){
-            if(attrs['fsHref'].search('://')!==-1) {
+            if(attrs['fsHref'].search('//')!==-1) {
                 attrs.$set('href', attrs['fsHref']);
                 return;
             }

@@ -23,7 +23,7 @@
                 if (deferedJsLoaded) return;
                 var defered = [];
                 angular.forEach(scope.sources, function (val) {
-                    var split = val.src.split('js');
+                    var split = (val.src||'').split('js');
 
                     if (val.src && split[split.length-1]==='' && val.defer) defered.push(val.src);
                 });

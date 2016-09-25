@@ -1,15 +1,13 @@
 {
   "name": "quartz",
-  "version": "0.11.5",
+  "version": "0.13.0",
   "dependencies": {
     "angular":"~1.5.8",
     "angular-aria": "~1.5.8",
     "angular-animate": "~1.5.8",
     "angular-cookies": "~1.5.8",
     "angular-digest-hud": "~0.1.13",
-    "angular-local-storage": "~0.2.2",
     "angular-messages": "~1.5.8",
-    "angular-moment": "~0.10.1",
     "angular-resource": "~1.5.8",
     "angular-sanitize": "~1.5.8",
     "angular-translate": "~2.7.2",
@@ -18,11 +16,6 @@
     "angular-translate-storage-local": "~2.7.2",
     "angular-ui-router": "~1.0.0",
     "animate.css-scss": "https://github.com/geoffgraham/animate.scss.git#master",
-    "core.js": "~2.4.1",
-    "countUp.js": "1.5.0",
-    "font-awesome": "~4.3.0",
-    "lz-string": "1.4.4",
-    "material-design-iconic-font": "~2.1.2",
     "oclazyload": "1.0.9"
   },
   "devDependencies": {
@@ -32,25 +25,7 @@
     "angular-material": {
       "main": [
         "angular-material.js",
-        "angular-material.scss"
-      ]
-    },
-    "weather-icons": {
-      "main": [
-        "./css/weather-icons.css",
-        "./font/*"
-      ]
-    },
-    "angular-dragula": {
-      "main": [
-        "dist/angular-dragula.js",
-        "dist/dragula.min.css"
-      ]
-    },
-    "ng-file-upload": {
-      "main": [
-        "ng-file-upload-shim.js",
-        "ng-file-upload.js"
+        "angular-material.css"
       ]
     }
   },

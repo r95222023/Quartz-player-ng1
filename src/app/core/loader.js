@@ -54,7 +54,7 @@
             promises = [];
         var _sourcesArr = sources || [];
         _sourcesArr.forEach(function (src, index) {
-            if (src.search('://') !== -1) {
+            if (src.search('//') !== -1) {
                 promises.push(Promise.resolve(src));
             } else {
                 var _path = src.charAt(0) === '/' ? 'file-root-path?path=' + src : 'file-path?path=' + src,

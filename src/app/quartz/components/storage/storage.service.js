@@ -126,7 +126,7 @@
                 var url=match.match(/url\(['"]?([\s\S]*?)["']?\)/m)[1];
                 url = url.replace('../','');
 
-                if (match.search('://') === -1) {
+                if (match.search('//') === -1) {
                     promises[index] = $firebaseStorage.ref('file-path?path=' + url).getDownloadURL();
                 } else {
                     promises[index] = Promise.resolve(url);

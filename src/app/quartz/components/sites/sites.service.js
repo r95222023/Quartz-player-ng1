@@ -125,7 +125,7 @@
                     if(_res.title) _core.siteUtil.changeTitle(_res.title);
                     if(_res.favicon) {
                         var src = _res.favicon;
-                        if(_res.favicon.search('://')!==-1){
+                        if(_res.favicon.search('//')!==-1){
                             _core.siteUtil.changeFavicon(src);
                         } else {
                             $firebaseStorage.ref('file-path?path='+src,{isJs:false}).getDownloadURL().then(function(url){

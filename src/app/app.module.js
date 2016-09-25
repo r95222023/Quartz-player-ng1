@@ -3,11 +3,10 @@
     angular.module('app', [
         'quartz',
         'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
-        'ui.router', 'pascalprecht.translate', 'LocalStorageModule', 'angularMoment',
+        'ui.router', 'pascalprecht.translate',
         //'seed-module',
         // uncomment above to activate the example seed module
         // 'app.examples',
-
         'oc.lazyLoad',
         'app.parts',
         'app.load'
@@ -15,7 +14,7 @@
 
 
 
-    _core.util = new _core.AppUtil();
+    _core.util = _core.util||new _core.AppUtil();
     var promises = [];
     var mainRef = firebase.database(_core.util.app).ref();
     _core.util.getSitePreload().then(function (res) {

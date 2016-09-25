@@ -5,18 +5,13 @@
 
     /* @ngInject */
     function LazyLoad($ocLazyLoad, $firebaseStorage, injectCSS) {
-        function getDownloadUrls(srcArr, onUrl){
+        function getDownloadUrls(srcArr){
             var promises = [];
             srcArr.forEach(function (src, index) {
-                if (src.search('://') === -1) {
+                if (src.search('//') === -1) {
                     promises[index] = $firebaseStorage.ref('file-path?path=' + src).getDownloadURL();
                 } else {
                     promises[index] = Promise.resolve(src);
-                }
-                if(typeof onUrl==='function'){
-                    promises[index].then(function(src){
-                        onUrl(src,index);
-                    })
                 }
             });
             return Promise.all(promises);
@@ -56,8 +51,10 @@
                 }
             });
 
-            getDownloadUrls(cssArr, function(cssUrl, index){
-                injectCSS.set('style' + pageName + index, cssUrl, true);
+            getDownloadUrls(cssArr).then(function(cssUrlArr){
+                cssUrlArr.forEach(function(url,index){
+                    injectCSS.set('style' + pageName + index, url, true);
+                });
             });
 
             return new Promise(function (resolve, reject) {
