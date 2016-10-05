@@ -43,9 +43,6 @@
         var customPage = this;
         // window.parent.setUpPreviewFrame();
 
-        window.previewRefresh = function (data) {
-            console.log(data);
-        };
 
 
         $scope.$go = function (pageName, params) {

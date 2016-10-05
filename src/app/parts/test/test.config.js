@@ -10,10 +10,14 @@
         $stateProvider
             .state('playertest', {
                 url: '/admin/test',
-                templateUrl: 'app/parts/test/test.tmpl.html',
-                // set the controller to load for this page
-                controller: 'TestPageController',
-                controllerAs: 'vm'
+                views: {
+                    'root': {
+                        templateUrl: 'app/parts/test/test.tmpl.html',
+                        // set the controller to load for this page
+                        controller: 'TestPageController',
+                        controllerAs: 'vm'
+                    }
+                }
             });
     }
 })();

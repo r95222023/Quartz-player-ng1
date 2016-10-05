@@ -1,35 +1,34 @@
 {
-  "name": "quartz",
-  "version": "0.13.0",
-  "dependencies": {
-    "angular":"~1.5.8",
-    "angular-aria": "~1.5.8",
-    "angular-animate": "~1.5.8",
-    "angular-cookies": "~1.5.8",
-    "angular-digest-hud": "~0.1.13",
-    "angular-messages": "~1.5.8",
-    "angular-resource": "~1.5.8",
-    "angular-sanitize": "~1.5.8",
-    "angular-translate": "~2.7.2",
-    "angular-translate-loader-partial": "~2.7.2",
-    "angular-translate-storage-cookie": "~2.7.2",
-    "angular-translate-storage-local": "~2.7.2",
-    "angular-ui-router": "~1.0.0",
-    "animate.css-scss": "https://github.com/geoffgraham/animate.scss.git#master",
-    "oclazyload": "1.0.9"
-  },
-  "devDependencies": {
-    "angular-mocks": "~1.5.1"
-  },
-  "overrides": {
-    "angular-material": {
-      "main": [
-        "angular-material.js",
-        "angular-material.css"
-      ]
-    }
-  },
-  "ignore": [
-    "README.md"
-  ]
+    "name": "quartz",
+    "version": "0.13.0",
+    "dependencies": {
+        "angular": "~1.5.8",
+        "angular-aria": "~1.5.8",
+        "angular-animate": "~1.5.8",
+        "angular-cookies": "~1.5.8",
+        "angular-digest-hud": "~0.1.13",
+        "angular-messages": "~1.5.8",
+        "angular-sanitize": "~1.5.8",
+        "angular-translate": "~2.7.2",
+        "angular-translate-loader-partial": "~2.7.2",
+        "angular-translate-storage-cookie": "~2.7.2",
+        "angular-translate-storage-local": "~2.7.2",
+        "angular-ui-router": "~1.0.0",
+        "jquery": "~2.2.4",
+        "oclazyload": "1.0.9"
+    },
+    "devDependencies": {
+        "angular-mocks": "~1.5.1"
+    },
+    "overrides": {
+        "angular-material": {
+            "main": [
+                "angular-material.js",
+                "angular-material.css"
+            ]
+        }
+    },
+    "ignore": [
+        "README.md"
+    ]
 }

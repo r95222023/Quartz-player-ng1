@@ -8,12 +8,6 @@
     /* @ngInject */
     function routeConfig($stateProvider) {
         $stateProvider
-            .state('quartz', {
-                abstract: true,
-                templateUrl: 'app/quartz/layouts/default/default.tmpl.html',
-                controller: 'DefaultLayoutController',
-                controllerAs: 'layoutController'
-            })
             .state('quartz-no-scroll', {
                 abstract: true,
                 templateUrl: 'app/quartz/layouts/default/default-no-scroll.tmpl.html',

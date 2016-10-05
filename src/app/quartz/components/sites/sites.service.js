@@ -108,7 +108,29 @@
                     return def.promise
                 };
                 if (toState.name === 'customPage' || toState.name === 'previewFrame') {
-                    getPreload(def.resolve,def.reject);
+                    _core.util.getSitePreload().then(function(res){
+                        var _res = res || {};
+                        console.log(res)
+                        $lazyLoad.loadSite(_res).then(function () {
+                            sitesService.config = _res;
+                            if(_res.title) _core.siteUtil.changeTitle(_res.title);
+                            if(_res.favicon) {
+                                var src = _res.favicon;
+                                if(_res.favicon.search('//')!==-1){
+                                    _core.siteUtil.changeFavicon(src);
+                                } else {
+                                    $firebaseStorage.ref('file-path?path='+src,{isJs:false}).getDownloadURL().then(function(url){
+                                        _core.siteUtil.changeFavicon(url);
+                                    })
+                                }
+                            }
+
+                            delete sitesService.preLoading;
+
+                            $rootScope.sitesService = sitesService;
+                            def.resolve(sitesService);
+                        });
+                    })
                 } else {
                     def.resolve(sitesService);
                 }
@@ -116,70 +138,21 @@
 
         }
 
-        function getPreload(resolve,reject) {
-            $firebaseStorage.getWithCache('site-config-preload').then(function (res) {
-                var _res = res || {};
-                console.log(res)
-                $lazyLoad.loadSite(_res).then(function () {
-                    sitesService.config = _res;
-                    if(_res.title) _core.siteUtil.changeTitle(_res.title);
-                    if(_res.favicon) {
-                        var src = _res.favicon;
-                        if(_res.favicon.search('//')!==-1){
-                            _core.siteUtil.changeFavicon(src);
-                        } else {
-                            $firebaseStorage.ref('file-path?path='+src,{isJs:false}).getDownloadURL().then(function(url){
-                                _core.siteUtil.changeFavicon(url);
-                            })
-                        }
-                    }
-
-                    delete sitesService.preLoading;
-
-                    $rootScope.sitesService = sitesService;
-                    resolve(sitesService);
-                });
-            });
-        }
-
-        function isDashboard(state) {
-            var name = state.name;
-            return name !== '' && (name.search('.admin') !== -1 || name === 'pageEditor' || name === 'widgetEditor');
-        }
-
-        function isCustomPage(state) {
-            return state.name.search('customPage') !== -1;
-        }
-
-        if (!config.standAlone) {
-            $transitions.onBefore( { to: '**' }, function(trans, $injector) {
-                var toState = trans.to(),
-                    fromState = trans.from(),
-                    toParams = trans.params('to');
-                if (toParams.siteName) {
-                    setSite(toParams.siteName, toState);
-                } else if (toParams.siteName === '' && _core.util.siteName) {
+        $transitions.onBefore( { to: '**' }, function(trans, $injector) {
+            var toState = trans.to(),
+                fromState = trans.from(),
+                toParams = trans.params('to'),
+                abort;
+            sitesService.pageName = toParams.pageName;
+            if (toParams.siteName) {
+                setSite(toParams.siteName, toState);
+            } else if (toParams.siteName === '' && _core.util.siteName) {
+                setTimeout(function(){ //wait until last transition is aborted then go to new state.
                     $state.go(toState.name, Object.assign(toParams, {siteName: _core.util.siteName}));
-                }
-                /*else if (toParams.siteName === '' && !$firebase.databases.selectedSite&&$auth.currentUser) {
-                 redirect('quartz.admin-default.mysites');
-                 }*/
-
-
-                //from dashboard to selected page
-                if (isDashboard(fromState) && isCustomPage(toState)) {
-                    setSite(toParams.siteName, toState, true);
-                }
-                //from selected page to dashboard
-                else if (isCustomPage(fromState) && isDashboard(toState)) {
-                    console.log('reloading');
-
-                    $window.location.reload();
-                }
-
-                sitesService.pageName = toParams.pageName;
-
-            });
-        }
+                },0)
+                abort=true;
+            }
+            return !abort;
+        });
     }
 })();

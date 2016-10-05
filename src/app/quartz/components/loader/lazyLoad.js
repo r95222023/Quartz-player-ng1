@@ -38,17 +38,9 @@
         function getLazyLoadArgs(sources, pageName) {
             var _sourcesArr = sources || [], jsArr = [], cssArr = [];
             _sourcesArr.forEach(function (val) {
-                if (typeof val === 'string') {
-                    if (isCSS(val)) {
-                        cssArr.push(val);
-                    } else if (isJS(val)) {
-                        jsArr.push(val);
-                    }
-                } else if (typeof val === 'object') {
-                    val.src = val.src||val.href||'';
-                    if (isCSS(val)) cssArr.push(val.src);
-                    if (isJS(val)&&!val.defer) jsArr.push(val.src);
-                }
+                val.src = val.src||val.href||'';
+                if (isCSS(val)) cssArr.push(val.src);
+                if (isJS(val)&&!val.defer) jsArr.push(val.src);
             });
 
             getDownloadUrls(cssArr).then(function(cssUrlArr){
@@ -75,6 +67,7 @@
                     if (args.files.length) {
                         $ocLazyLoad.load(args).then(function () {
                             resolve(_val);
+                            console.log(_val)
                         })
                     } else {
                         resolve(_val);
@@ -88,13 +81,13 @@
         function load(type, name) {
             return new Promise(function (resolve, reject) {
                 var _name = name,
-                    pageId = _name.replace(/\s+/g, '');
+                    id = _name.replace(/\s+/g, '');
 
                 if (angular.isObject(type)) {
-                    loadData(type, resolve, pageId);
+                    loadData(type, resolve, id);
                 } else {
-                    $firebaseStorage.getWithCache(type + '?type=detail&id=' + _name).then(function (val) {
-                        loadData(val, resolve, pageId);
+                    _core.util.loadPage('', name).then(function (val) {
+                        loadData(val, resolve, id);
                     });
                 }
             })

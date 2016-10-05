@@ -13,23 +13,26 @@
     }
 
     /* @ngInject */
-    function customItem($compile, $injector, $ocLazyLoad, $lazyLoad) {
+    function customItem($compile, $injector, $ocLazyLoad, $lazyLoad, snippets) {
         var linker = function (scope, element, attrs, ctrl) {
             var _ctrl = angular.copy(ctrl),
                 status,
                 deferedJsLoaded;
+            $(element).addClass('ng-hide');
+            var fireLoadEvent = snippets.debounce(function(){
+                $(element).removeClass('ng-hide');
+                $(window).trigger('load');
+            },100)
 
             function loadDeferedJs() {
                 if (deferedJsLoaded) return;
                 var defered = [];
                 angular.forEach(scope.sources, function (val) {
-                    var split = (val.src||'').split('js');
-
-                    if (val.src && split[split.length-1]==='' && val.defer) defered.push(val.src);
+                    if (val.src.search(/.*(\.js$|\.js?)/)!==-1 && val.defer) defered.push(val.src);
                 });
 
                 $lazyLoad.getDownloadUrls(defered).then(function (res) {
-                    $ocLazyLoad.load({serie: true, files: res})
+                    $ocLazyLoad.load({serie: true, files: res}).then(fireLoadEvent).catch(fireLoadEvent);
                 });
                 deferedJsLoaded = true;
             }
@@ -72,7 +75,6 @@
                     clearTimeout(timeout);
                 }, 1000)
             }
-
             scope.$watch('customJs', compile);
             scope.$watch('content', compile);
         };

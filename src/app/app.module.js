@@ -1,5 +1,12 @@
 (function () {
     'use strict';
+    var extra;
+    try{
+        extra=['app.custom'];
+        angular.module('app.custom');
+    } catch(e){
+        extra=[];
+    }
     angular.module('app', [
         'quartz',
         'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
@@ -8,9 +15,8 @@
         // uncomment above to activate the example seed module
         // 'app.examples',
         'oc.lazyLoad',
-        'app.parts',
-        'app.load'
-    ]);
+        'app.parts'
+    ].concat(extra));
 
 
 
@@ -18,14 +24,7 @@
     var promises = [];
     var mainRef = firebase.database(_core.util.app).ref();
     _core.util.getSitePreload().then(function (res) {
-        var extraModules=[];
-        if (res&&res.commonPackages) {
-            for (var key in res.commonPackages) {
-                promises.push(_core.util.loader.loadPackages(key, res.commonPackages[key], extraModules));
-            }
-        }
-        angular.module('app.load',extraModules||[]);
-        // promises.push(_core.util.loader.loadPackages('ngMaterial', {version: '1.1.0'},extraModules));
+
         angular.element(document).ready(function () {
             // your Firebase data URL goes here, no trailing slash
             console.log(window.location);
