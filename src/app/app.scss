@@ -1,22 +1,14 @@
-// import material icons
-$zmdi-font-path: "../bower_components/material-design-iconic-font/dist/fonts";
-@import "bower_components/material-design-iconic-font/scss/material-design-iconic-font.scss";
-
 // import angular material scss
 //@import "angular-material/angular-material.scss";
+html, body {
+  height: 100%;
+}
 
-// import quartz module scss
-@import "quartz/quartz";
 
 // set template font family
 button, select, html, textarea, input {
   font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
 }
-
-// import app scss
-
-@import "scss/_material-backgrounds";
-
 // Add your CSS here
 
 /**
