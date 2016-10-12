@@ -52,9 +52,19 @@
         // always goto 404 if route not found
         // $urlRouterProvider.otherwise('/404');
         //see http://stackoverflow.com/questions/31190180/angular-1-4-1-ui-router-10-digest-iterations-when-state-go-called-on-statec
-        // $urlRouterProvider.otherwise(function ($injector) {
-        //     var $state = $injector.get('$state');
-        //     $state.go('404');
-        // });
+
+        $urlRouterProvider.otherwise(function ($injector) {
+            var $state = $injector.get('$state'),
+                $transitions = $injector.get('$transitions');
+            setTimeout(function(){
+                $state.go('404');
+            },1000);
+        });
+        window.addEventListener("hashchange",function(event){
+            var errorRegEx = /.*?\/\/.*?(\/#!\/|\/)404$/;
+            if(event.oldURL.match(errorRegEx)&&!event.newURL.match(errorRegEx)){
+                location.reload();
+            }
+        });
     }
 })();

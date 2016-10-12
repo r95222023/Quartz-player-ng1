@@ -63,13 +63,11 @@
 
     /* @ngInject */
     function run($transitions, $state, sitesService) {
-
         $transitions.onBefore( { to: '**' }, function(trans, $injector) {
             var toState = trans.to(),
                 fromState =trans.from(),
                 toParams = trans.params('to'),
                 abort;
-
             sitesService.pageName = toParams.pageName;
             var toSiteName = _core.util.site.siteName;
 

@@ -7,16 +7,16 @@
 
     /* @ngInject */
     function pagesConfig($stateProvider) {
+        var customPageURL = (_core.util.site.domain? '/:pageName': '/'+_core.util.site.siteName+'/:pageName')+'/?params&params2';
         $stateProvider
             .state('customPage', {
-                url: '/'+_core.util.site.siteName+'/:pageName/?id&params&params2&cate&subCate&queryString&tag&devMode',
+                url: customPageURL,
                 params: {
                     // siteName: '',
-                    id: '',
+                    // id: '',
                     pageName: 'index',
                     params: '',
-                    params2: '',
-                    devMode: ''
+                    params2: ''
                 },
                 views: {
                     'root': {
