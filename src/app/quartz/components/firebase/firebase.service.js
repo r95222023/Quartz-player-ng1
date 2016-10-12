@@ -22,7 +22,7 @@
         function queryRef(path, option) {
             var params = {},
                 _option = option || {};
-            if (_core.util.siteName) params.siteName = _core.util.siteName;
+            if (_core.util.site.siteName) params.siteName = _core.util.site.siteName;
             if (_option.params) {
                 _option.params = Object.assign(params, _option.params);
             } else {
@@ -32,7 +32,7 @@
         }
 
         function update(paths, data, option) {
-            var siteName = _core.util.siteName ? _core.util.siteName : '',
+            var siteName = _core.util.site.siteName ? _core.util.site.siteName : '',
                 _option = Object.assign({siteName: siteName}, option),
                 _paths = Array.isArray(paths) ? paths : [paths];
             return _core.util.database.update(_paths, data, _option);

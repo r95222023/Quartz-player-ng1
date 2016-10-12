@@ -23,7 +23,7 @@
         function buildOpt(option) {
             var params = {},
                 _option = option || {};
-            if (_core.util.siteName) params.siteName = _core.util.siteName;
+            if (_core.util.site.siteName) params.siteName = _core.util.site.siteName;
             if (_option.params) {
                 _option.params = Object.assign(params, _option.params);
             } else {

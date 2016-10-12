@@ -9,9 +9,9 @@
     function pagesConfig($stateProvider) {
         $stateProvider
             .state('customPage', {
-                url: '/:siteName/:pageName/?id&params&params2&cate&subCate&queryString&tag&devMode',
+                url: '/'+_core.util.site.siteName+'/:pageName/?id&params&params2&cate&subCate&queryString&tag&devMode',
                 params: {
-                    siteName: '',
+                    // siteName: '',
                     id: '',
                     pageName: 'index',
                     params: '',
@@ -47,7 +47,6 @@
                 url: '/preview/:siteName/:pageName/?params',
                 views: {
                     'root': {
-                        templateUrl: 'app/parts/design/custom-page.tmpl.html',
                         controller: 'PreviewFrameController',
                         controllerAs: 'customPage'
                     }

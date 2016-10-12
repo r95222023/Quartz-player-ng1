@@ -23,15 +23,9 @@
     _core.util = _core.util||new _core.AppUtil();
     var promises = [];
     var mainRef = firebase.database(_core.util.app).ref();
-    _core.util.getSitePreload().then(function (res) {
-
+    _core.util.site.getSitePreload().then(function (res) {
+        console.log(res)
         angular.element(document).ready(function () {
-            // your Firebase data URL goes here, no trailing slash
-            console.log(window.location);
-            angular.forEach(window.config, function (config) {
-                config.apply(null);
-            });
-
             mainRef.child('config').once('value', function (snap) {
                 angular.module('app')
                     .constant('APP_LANGUAGES', [{

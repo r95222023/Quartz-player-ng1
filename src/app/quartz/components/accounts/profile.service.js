@@ -11,7 +11,7 @@
             return _core.util.auth.currentUser;
         }
         function getSiteName(){
-            return _core.util.siteName
+            return _core.util.site.siteName
         }
 
         this.updateProfile = function (basic, otherInfo, listData) {

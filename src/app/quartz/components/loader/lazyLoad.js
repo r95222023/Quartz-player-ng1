@@ -86,7 +86,7 @@
                 if (angular.isObject(type)) {
                     loadData(type, resolve, id);
                 } else {
-                    _core.util.loadPage('', name).then(function (val) {
+                    _core.util.site.loadPage('', name).then(function (val) {
                         loadData(val, resolve, id);
                     });
                 }

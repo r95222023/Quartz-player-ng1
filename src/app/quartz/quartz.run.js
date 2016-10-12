@@ -20,6 +20,5 @@
 
 
         //// detect if user is logged in: moved to authentication service
-        
     }
 })();
