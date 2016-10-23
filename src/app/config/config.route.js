@@ -1,11 +1,11 @@
 (function () {
     'use strict';
     angular
-        .module('app')
+        .module('app.configs')
         .config(routeConfig);
 
     /* @ngInject */
-    function routeConfig($stateProvider, $urlRouterProvider, config, $locationProvider, $injector) {
+    function routeConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         // Setup the apps routes
         $locationProvider.hashPrefix('!');
         // 404 & 500 pages

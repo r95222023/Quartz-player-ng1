@@ -1,62 +1,64 @@
 (function () {
     'use strict';
-    var extra;
-    try{
-        extra=['app.custom'];
-        angular.module('app.custom');
-    } catch(e){
-        extra=[];
-    }
-    angular.module('app', [
-        'quartz',
-        'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
-        'ui.router', 'pascalprecht.translate',
-        //'seed-module',
-        // uncomment above to activate the example seed module
-        // 'app.examples',
-        'oc.lazyLoad',
-        'app.parts'
-    ].concat(extra));
-
-
 
     _core.util = _core.util||new _core.AppUtil();
-    var promises = [];
-    var mainRef = firebase.database(_core.util.app).ref();
     _core.util.site.getSitePreload().then(function (res) {
-        console.log(res)
+        console.log(res);
+
+        var promises = [];
+        var extra=[];
+
+        if(res&&res.preset&&Array.isArray(res.preset.dependencies)){
+            extra=res.preset.dependencies;
+        }
+        // load if following modules exist
+        ['app.custom','ngMaterial','md.data.table','angulartics','angulartics.google.analytics'].forEach(function(extraMod){
+            try{
+                angular.module(extraMod);
+                extra.push(extraMod);
+
+            } catch(e){}
+        });
+
+        angular.module('app', [
+            'quartz',
+            'ngAnimate', 'ngCookies', 'ngSanitize', 'ngMessages',
+            'ui.router', 'pascalprecht.translate',
+            'oc.lazyLoad',
+            'app.parts',
+            'app.configs'
+        ].concat(extra));
+
         angular.element(document).ready(function () {
-            mainRef.child('config').once('value', function (snap) {
-                angular.module('app')
-                    .constant('APP_LANGUAGES', [{
-                        name: 'LANGUAGES.CHINESE',
-                        key: 'zh'
-                    }, {
-                        name: 'LANGUAGES.ENGLISH',
-                        key: 'en'
-                    }, {
-                        name: 'LANGUAGES.FRENCH',
-                        key: 'fr'
-                    }, {
-                        name: 'LANGUAGES.PORTUGUESE',
-                        key: 'pt'
-                    }])
+            angular.module('app')
+            // .constant('APP_LANGUAGES', [{
+            //     name: 'LANGUAGES.CHINESE',
+            //     key: 'zh'
+            // }, {
+            //     name: 'LANGUAGES.ENGLISH',
+            //     key: 'en'
+            // }, {
+            //     name: 'LANGUAGES.FRENCH',
+            //     key: 'fr'
+            // }, {
+            //     name: 'LANGUAGES.PORTUGUESE',
+            //     key: 'pt'
+            // }])
 
-                    .constant('config', Object.assign({
-                        debug: true,
-                        shipping: 0,
-                        taxRate: 0,
-                        serverFb: 'quartz', /*https://quartz.firebaseio.com*/
-                        home: 'quartzplayertest',
-                        defaultUrl: '/admin/test',
-                        // where to redirect users if they need to authenticate
-                        loginRedirectState: 'authentication.login'
-                    }, snap.val()));
-
-
-                Promise.all(promises).then(function(){
-                    angular.bootstrap(document, ['app']);
+                .constant('config', {
+                    debug: true,
+                    shipping: 0,
+                    taxRate: 0,
+                    serverFb: 'quartz', /*https://quartz.firebaseio.com*/
+                    home: 'quartzplayertest',
+                    defaultUrl: '/admin/test',
+                    // where to redirect users if they need to authenticate
+                    loginRedirectState: 'authentication.login'
                 });
+
+
+            Promise.all(promises).then(function(){
+                angular.bootstrap(document, ['app']);
             });
         });
     });

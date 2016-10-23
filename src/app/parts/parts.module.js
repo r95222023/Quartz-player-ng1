@@ -3,7 +3,6 @@
 
     angular
         .module('app.parts', [
-            'app.parts.design',
-            'app.parts.test'
+            'app.parts.design'
         ]);
 })();

@@ -14,6 +14,8 @@
         "angular-translate-storage-cookie": "~2.7.2",
         "angular-translate-storage-local": "~2.7.2",
         "angular-ui-router": "~1.0.0",
+        "angulartics":"^1.2.1",
+        "angulartics-google-analytics":"~0.3.0",
         "jquery": "~2.2.4",
         "oclazyload": "1.0.9"
     },

@@ -15,11 +15,6 @@ gulp.task('inject', ['styles', 'typescripts'], function () {
         '!' + paths.tmp + '/serve/app/vendor.css'
     ], {read: false});
 
-    // var injectCore = gulp.src([
-    //     paths.src + '/app/core/**/*.js',
-    //     '!' + paths.src + '/app/core/**/*.spec.js',
-    //     '!' + paths.src + '/app/core/**/*.mock.js'
-    // ]);
 
     var injectScripts = gulp.src([
         paths.src + '/app/**/*.js',

@@ -7,9 +7,8 @@
 
     /* @ngInject */
     function customCtrl($scope, $attrs, $controller) {
-        if ($attrs.apiCtrl) {
-            $controller($attrs.apiCtrl, {"$scope": $scope});
-        }
+        $controller($attrs.apiCtrl||'BasicApiController', {"$scope": $scope});
+
     }
 
     /* @ngInject */
@@ -22,7 +21,7 @@
             var fireLoadEvent = snippets.debounce(function(){
                 $(element).removeClass('ng-hide');
                 $(window).trigger('load');
-            },100)
+            },100);
 
             function loadDeferedJs() {
                 if (deferedJsLoaded) return;
@@ -40,16 +39,17 @@
             function injectCustomJs() {
                 if (scope.customJs) {
                     var js, customJs = scope.customJs;
-                    try {
-                        eval("js =" + customJs);
-                        if (angular.isFunction(js) || (angular.isArray(js) && angular.isFunction(js[js.length]))) {
-                            $injector.invoke(js, ctrl, {"$scope": scope});
-                        }
-                    } catch (e) {
+                    if(scope.customJs.search('\/*@ngController*\/')!==-1){
+                        try {
+                            eval("js =" + customJs);
+                            if (angular.isFunction(js) || (angular.isArray(js) && angular.isFunction(js[js.length]))) {
+                                $injector.invoke(js, ctrl, {"$scope": scope});
+                            }
+                        } catch (e) {}
+                    } else {
                         try {
                             eval(customJs);
-                        } catch (e) {
-                        }
+                        } catch (e) {}
                     }
                 }
             }
