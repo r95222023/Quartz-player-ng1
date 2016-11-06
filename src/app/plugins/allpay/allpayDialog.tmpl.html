@@ -1,0 +1,13 @@
+<md-dialog aria-label="List dialog" ng-if="data.payment.allpay">
+    <input>
+    <form name="allpay-checkout" ng-submit="submit()" target="_blank" method="post" action="{{allpayFormAction}}">
+        <input ng-repeat="(name, value) in data.payment.allpay" name="{{name}}" value="{{value}}">
+    </form>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <input class="md-button md-raised" ng-click="submit()" type="submit" value="Submit">
+        <md-button ng-click="closeDialog()" class="md-primary">
+            Cancel
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

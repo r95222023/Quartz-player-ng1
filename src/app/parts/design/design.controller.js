@@ -8,7 +8,7 @@
         .controller('PreviewFrameController', PreviewFrameController);
 
     /* @ngInject */
-    function BasicApiController(apiService, articleProduct, $injector, $auth, $firebaseStorage, $scope, $state, $stateParams) {
+    function BasicApiController(apiService, $injector, $auth, $firebaseStorage, $scope, $state, $stateParams) {
         angular.forEach(apiService, function(method, methodName){
             $scope[methodName]=method
         });

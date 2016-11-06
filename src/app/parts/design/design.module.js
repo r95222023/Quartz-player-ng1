@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('app.parts.design', ['app.plugins.articleproduct']);
+        .module('app.parts.design', []);
 })();

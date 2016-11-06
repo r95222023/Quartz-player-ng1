@@ -26,11 +26,9 @@
         }
 
         Allpay.prototype.getPaymentInfo = function (order, opt) {
-            var cart = order.cart ? order.cart : {},
-                items= cart.items||[],
+            var items= order.items||{},
                 _opt = opt || {},
-                config = _opt.config || {},
-                now = _opt.timeStamp||(new Date()),
+                now = _opt.timeStamp? (new Date(_opt.timeStamp)):(new Date()),
                 month = to2dig(now.getMonth()+1),
                 day = to2dig(now.getDate()),
                 hour = to2dig(now.getHours()),
@@ -49,26 +47,14 @@
             }
             itemName = itemName.slice(0, -1);
 
-            //for total amount
-            var amount = 0;
-            if (angular.isNumber(order.totalAmount)||angular.isNumber(_opt.totalAmount)) {
-                amount = order.totalAmount||_opt.totalAmount;
-            } else if (angular.isFunction(_opt.totalAmount)) {
-                amount = _opt.totalAmount(order);
-            } else {
-                angular.forEach(cart, function (item, name) {
-                    amount = amount+(item.quantity*item.price);
-                });
-            }
-
             var form = angular.extend({}, this.defaultConfig, _opt.paymentParams||{}, {
                 ReturnURL:this.defaultConfig.ReturnURL+'?sitename='+this.getSite()+'&uid='+order.clientInfo.uid,
                 PaymentInfoURL:this.defaultConfig.PaymentInfoURL+'?sitename='+this.getSite()+'&uid='+order.clientInfo.uid,
                 MerchantTradeDate: date,
-                TotalAmount: amount
+                TotalAmount: _order.totalAmount||0
             });
 
-            form.MerchantTradeNo = order.id || now.getTime();
+            form.MerchantTradeNo = order.id;
             form.ItemName = form.ItemName || itemName || 'required, please set a value';
             return form;
         };

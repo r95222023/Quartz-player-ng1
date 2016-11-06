@@ -66,7 +66,7 @@
         }
 
         function to2dig(num) {
-            return num < 10 ? ('0' + num) : num;
+            return num < 10 ? ('0' + num) : (num+'');
         }
 
         function saveData(data, fileName, type) {
