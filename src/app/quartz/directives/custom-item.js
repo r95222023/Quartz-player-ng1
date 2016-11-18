@@ -8,7 +8,6 @@
     /* @ngInject */
     function customCtrl($scope, $attrs, $controller) {
         $controller($attrs.apiCtrl||'BasicApiController', {"$scope": $scope});
-
     }
 
     /* @ngInject */
@@ -65,10 +64,13 @@
                 });
                 if (angular.isString(scope.content)) {
                     if (attrs.modelAs) scope[attrs.modelAs] = scope.model;
-                    element.html(scope.content).show();
+                    element.html(scope.content);
                     injectCustomJs();
                     loadDeferedJs();
-                    $compile(element.contents())(scope);
+                    var content=element.contents();
+                    $compile(content)(scope);
+                    //http://stackoverflow.com/questions/30764126/how-to-replacewith-directive-element-with-template-in-directive
+                    // if(content.unwrap) content.unwrap(); //slower
                 }
                 var timeout = setTimeout(function () {
                     status = '';

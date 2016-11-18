@@ -48,7 +48,10 @@
                 views: {
                     'root': {
                         controller: 'PreviewFrameController',
-                        controllerAs: 'customPage'
+                        controllerAs: 'customPage',
+                        templateProvider: ['pageData', function (pageData) {
+                            return pageData.body || '<custom-item id="custom-page" content="customPage.html" api-ctrl="BasicApiController" custom-js="customPage.js" sources="customPage.sources" style="height:100%; width:100%"></custom-item>'
+                        }]
                     }
                 },
                 params: {
@@ -59,6 +62,15 @@
                 resolve: {
                     onSiteReady: ['sitesService', function (sitesService) {
                         return sitesService.onReady();
+                    }],
+                    pageData: ['sitesService', '$lazyLoad', '$stateParams', function (sitesService, $lazyLoad, $stateParams) {
+                        return new Promise(function (resolve, reject) {
+                            sitesService.onReady().then(function () {
+                                $lazyLoad.load('page', $stateParams.pageName).then(function (pageData) {
+                                    resolve(pageData);
+                                });
+                            }).catch(reject);
+                        });
                     }]
                 }
             })

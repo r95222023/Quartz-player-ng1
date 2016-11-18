@@ -1,6 +1,7 @@
 (function () {
     'use strict';
 
+    angular.module("app.tmpl",[]); //create a module for templateCache
     _core.util = _core.util||new _core.AppUtil();
     _core.util.site.getSitePreload().then(function (res) {
         console.log(res);
@@ -26,6 +27,7 @@
             'ui.router', 'pascalprecht.translate',
             'oc.lazyLoad',
             'app.parts',
+            'app.tmpl',
             'app.configs'
         ].concat(extra));
 
@@ -62,7 +64,4 @@
             });
         });
     });
-
-
-
 })();
