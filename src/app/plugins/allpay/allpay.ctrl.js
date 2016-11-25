@@ -102,7 +102,7 @@
 
         function getCheckMacValue() {
             return new Promise(function (resolve, reject) {
-                var taskId = firebase.database().ref().push().key;
+                var taskId = $firebase.queryRef('keys').push().key;
                 vm.order.id = vm.order.id||taskId;
 
                 updateOrderData().then(function () {

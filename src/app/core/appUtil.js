@@ -68,7 +68,8 @@
             'user-orders': user + '/orders/:type',
             'order-payment-allpay': site + '/orders/detail/:orderId/payment/allpay',
             'orders-analysis': site + '/orders/analysis/:dateId',
-            'notifications': 'users/detail/:uid/notifications'
+            'notifications': 'users/detail/:uid/notifications',
+            'plans':'plans/:type'
         };
 
 
@@ -125,15 +126,6 @@
         res = isFile && fileExtension ? (res + '.js') : res;
         return res
     };
-
-    function formalizeKey(key) {
-        var res = key, replace = [[/\./g, '^%0'], [/#/g, '^%1'], [/\$/g, '^%2'], [/\[/g, '^%3'], [/\]/g, '^%4']];
-        for (var i = 0; i < replace.length; i++) {
-            res = res.replace(replace[i][0], replace[i][1]);
-        }
-        // ".", "#", "$", "/", "[", or "]"
-        return res;
-    }
 
 
 })(firebase);
