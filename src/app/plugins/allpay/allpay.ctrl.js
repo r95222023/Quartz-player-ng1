@@ -10,75 +10,57 @@
     function AllpayCtrl($ngCart, $auth, $firebase, $mdMedia, $timeout, snippets) {
         var vm = this;
         var siteName = _core.util.site.siteName;
-        var getCurrentTime;
-        var defaultAllpayParams = {
-            MerchantID: '2000132',
-            PaymentType: "aio",
-            ReturnURL: "http://http://24.14.103.233/allpayReceive",
-            PaymentInfoURL: "http://24.14.103.233/allpayPaymentInfo",
-            ChoosePayment: "ALL",
-            NeedExtraPaidInfo: "Y",
-            TradeDesc: "required, please set a value."
-        };
 
         vm.order = {
             vendor: {},
             buyer: {},
-            shipment: {},
+            shipping: {},
             payment: {}
         };
 
-        function updateOrderData() {
-            vm.order.items = {};
-            $ngCart.$cart.items.forEach(function (item) {
-                vm.order.items[item.getId()] = item.toObject();
-            });
-            vm.order.vendor.id = siteName;
-            vm.order.buyer.id = $auth.currentUser.uid;
+        // function updateOrderData() {
+        //     vm.order.items = {};
+        //     $ngCart.$cart.items.forEach(function (item) {
+        //         vm.order.items[item.getId()] = item.toObject();
+        //     });
+        //     vm.order.vendor.id = siteName;
+        //     vm.order.buyer.id = $auth.currentUser.uid;
+        //
+        //     return new Promise(function (resolve, reject) {
+        //         $firebase.ref('site-config-payment?provider=allpay').child('private').once('value', function (snap) {
+        //             var publicPaymentConf = snap.val();
+        //             var pricePromise;
+        //             if (publicPaymentConf && publicPaymentConf.calcPrice) {
+        //                 eval('pricePromise=new Promise(function(resolve,reject){' + publicPaymentConf.calcPrice + '})')
+        //             } else {
+        //                 var amount = 0;
+        //                 angular.forEach(vm.order.items, function (item) {
+        //                     amount += (item.quantity * item.price);
+        //                 });
+        //                 pricePromise = Promise.resolve(amount);
+        //             }
+        //         });
+        //         pricePromise.then(function (totalAmount) {
+        //             vm.order.payment = {
+        //                 provider: 'allpay',
+        //                 totalAmount: totalAmount,
+        //                 allpay: buildAllpayParams()
+        //             };
+        //             resolve();
+        //         });
+        //     });
+        // }
 
-            return new Promise(function (resolve, reject) {
-                $firebase.ref('site-config-payment?provider=allpay').child('private').once('value', function (snap) {
-                    var publicPaymentConf = snap.val();
-                    var pricePromise;
-                    if (publicPaymentConf && publicPaymentConf.calcPrice) {
-                        eval('pricePromise=new Promise(function(resolve,reject){' + publicPaymentConf.calcPrice + '})')
-                    } else {
-                        var amount = 0;
-                        angular.forEach(vm.order.items, function (item) {
-                            amount += (item.quantity * item.price);
-                        });
-                        pricePromise = Promise.resolve(amount);
-                    }
-                });
-                pricePromise.then(function (totalAmount) {
-                    vm.order.payment = {
-                        provider: 'allpay',
-                        totalAmount: totalAmount,
-                        allpay: buildAllpayParams()
-                    };
-                    resolve();
-                });
-            });
-        }
-
-        _core.syncTime().then(function (getTime) {
-            getCurrentTime = getTime;
-            updateOrderData().then(function () {
-                $timeout(angular.noop, 0)
-            });
-        });
+        // _core.syncTime().then(function (getTime) {
+        //     getCurrentTime = getTime;
+        //     updateOrderData().then(function () {
+        //         $timeout(angular.noop, 0)
+        //     });
+        // });
 
         function buildAllpayParams(opt) {
             var items = vm.order.items || {},
-                to2dig = snippets.to2dig,
-                _opt = opt || {},
-                now = (new Date(getCurrentTime())),
-                month = to2dig(now.getUTCMonth() + 1),
-                day = to2dig(now.getUTCDate()),
-                hour = to2dig(now.getUTCHours()),
-                min = to2dig(now.getUTCMinutes()),
-                sec = to2dig(now.getUTCSeconds()),
-                date = now.getUTCFullYear() + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec;
+                _opt = opt || {};
 
             //for description
             var itemName = '';
@@ -87,61 +69,96 @@
             }
             // itemName = itemName.slice(0, -1);
 
-            var paymentParams = Object.assign({}, defaultAllpayParams, _opt.allpayParams, {
-                ReturnURL: this.defaultConfig.ReturnURL + '?sitename=' + siteName + '&uid=' + vm.order.buyer.uid,
-                PaymentInfoURL: this.defaultConfig.PaymentInfoURL + '?sitename=' + siteName + '&uid=' + vm.order.buyer.uid,
-                MerchantTradeDate: date,
-                TotalAmount: vm.order.payment.totalAmount || 0
+
+            // return paymentParams;
+            // var date = moment(_core.getSyncTime()).format('YYYY/MM/DD HH:mm:ss');
+
+            var paymentParams = Object.assign({}, defaultAllpayParams, {
+                ReturnURL: "http://131.193.191.5/planAllpayReceive?sitename=" + siteName + '&uid=' + $auth.currentUser.uid,
+                PaymentInfoURL: "http://131.193.191.5/allpayPaymentInfo?sitename=" + siteName + '&uid=' + $auth.currentUser.uid,
+                // MerchantTradeDate: date,
+                // ChoosePayment: 'Credit',
+                // PeriodAmount: plan.periodAmount,
+                // TotalAmount: getTotalAmount(plan, currentPlan),
+                // PeriodType:'M',
+                // Frequency:1,
+                // ExecTimes:99,
+                PaymentType: 'aio'
             });
 
-            paymentParams.MerchantTradeNo = order.id;
+            if ($mdMedia('xs')) {
+                paymentParams.DeviceSource = 'M'
+            } else {
+                paymentParams.DeviceSource = 'P'
+            }
             paymentParams.ItemName = paymentParams.ItemName || itemName || 'required, please set a value';
+            paymentParams.MerchantTradeNo = vm.order.id;
+
             return paymentParams;
         }
 
-
-        function getCheckMacValue() {
-            return new Promise(function (resolve, reject) {
-                var taskId = $firebase.queryRef('keys').push().key;
-                vm.order.id = vm.order.id||taskId;
-
-                updateOrderData().then(function () {
-                    $firebase.request(
-                        {
-                            paths: ['queue-task?id=' + taskId],
-                            data: buildRequest(vm.order)
-                        },
-                        ['queue-task?id=' + taskId + '/payment/allpay/CheckMacValue'])
-                        .then(function (res) {
-                            vm.order.payment.allpay['CheckMacValue'] = res[0];
-                            vm.order.taskId = taskId;
-
-                            console.log('order mac: ' + res[0]);
-                            $timeout(angular.noop, 0);
-                            resolve(vm.order);
-                        }, function (error) {
-                            reject(error);
-                            console.log(error);
-                        });
-                });
+        function getOrderData() {
+            vm.order.id = vm.order.id || _core.getSyncTime();
+            $ngCart.$cart.items.forEach(function (item) {
+                vm.order.items[item.getId()] = item.toObject();
             });
+            vm.order.buyer.id = $auth.currentUser.uid;
+            vm.order.siteName = siteName;
+            vm.order.payer.id = $auth.currentUser.uid;
+            vm.order.payment = {
+                provider: 'allpay',
+                allpay: buildAllpayParams()
+            };
+            return vm.order;
         }
 
         function buildRequest(orderData) {
             var req = {payment: {allpay: {}}};
             angular.extend(req, orderData);
 
-            if ($mdMedia('xs')) {
-                req.payment.allpay.DeviceSource = 'M'
-            } else {
-                req.payment.allpay.DeviceSource = 'P'
-            }
-            req.id = orderData.id || orderData.payment.allpay.MerchantTradeNo;
-            req.siteName = sitesService.siteName;
-            req.payment.provider = 'allpay';
-            req['_state'] = 'allpay_gen_check_mac';
+            req['_state'] = 'order_allpay_gen_check_mac';
             return snippets.rectifyUpdateData(req);
         }
+
+        function getCheckMacValue() {
+            return new Promise(function (resolve, reject) {
+                getOrderData();
+                var taskRef = $firebase.queryRef('queue-task?id=' + vm.order.id);
+                taskRef.set(buildRequest(vm.order))
+                    .then(function () {
+                        var listener = function (snap) {
+                            if (snap.val() && snap.val().payment.allpay.CheckMacValue) {
+                                vm.order.payment.allpay = snap.val().payment.allpay;
+                                $timeout(angular.noop, 0);
+                                console.log(vm.order.payment.allpay);
+                                taskRef.off('value', listener);
+                                resolve(vm.order);
+                            }
+                        };
+                        taskRef.on('value', listener)
+                    });
+            });
+        }
+
+        // function buildRequest(orderData) {
+        //     var req = {payment: {allpay: {}}};
+        //     angular.extend(req, orderData);
+        //
+        //     if ($mdMedia('xs')) {
+        //         req.payment.allpay.DeviceSource = 'M'
+        //     } else {
+        //         req.payment.allpay.DeviceSource = 'P'
+        //     }
+        //     req.id = orderData.id || orderData.payment.allpay.MerchantTradeNo;
+        //     req.siteName = sitesService.siteName;
+        //     req.payment.provider = 'allpay';
+        //     req['_state'] = 'allpay_gen_check_mac';
+        //     return snippets.rectifyUpdateData(req);
+        // }
+        vm.submit = function () {
+            var e = document.getElementsByName('allpay-checkout');
+            e[0].submit();
+        };
 
         vm.showDialog = function ($event) {
             var parentEl = angular.element(document.body);

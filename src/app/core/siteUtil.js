@@ -33,7 +33,7 @@
     };
 
     function getSiteNameFromURL(){
-        var siteNameRegEx = /.*?\/\/.*?(\/preview\/#!\/preview\/|\/#!\/|\/)(.*?)\//;
+        var siteNameRegEx = /.*?\/\/.*?(\/preview\/#!\/preview\/|\/#!\/test\/|\/#!\/|\/)(.*?)\//;
         var match = location.href.match(siteNameRegEx);
         var res = match ? match[2] : '';
         return res&&res.search('#')===-1? res:'';

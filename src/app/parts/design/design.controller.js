@@ -4,19 +4,20 @@
     angular
         .module('app.parts.design')
         .controller('BasicApiController', BasicApiController)
-        .controller('CustomPageController', CustomPageController)
-        .controller('PreviewFrameController', PreviewFrameController);
+        // .controller('CustomPageController', CustomPageController)
+        .controller('CustomPageCtrl', CustomPageCtrl)
+        .controller('PreviewFrameController', PreviewFrameCtrl);
 
     /* @ngInject */
     function BasicApiController(apiService, $injector, $auth, $firebaseStorage, $scope, $state, $stateParams) {
-        angular.forEach(apiService, function(method, methodName){
-            $scope[methodName]=method
+        angular.forEach(apiService, function (method, methodName) {
+            $scope[methodName] = method
         });
         $scope.$service = function (name) {
             return $injector.get(name);
         };
         console.log($scope);
-        $scope.test = function(){
+        $scope.test = function () {
             console.log('test1');
         };
 
@@ -49,11 +50,20 @@
         // };
     }
 
+
     /* @ngInject */
-    function CustomPageController(pageData, apiService, $scope, $injector, customService, $stateParams, $timeout, $state) {
-        var customPage = this;
+    function CustomPageCtrl(pageData, apiService, $scope, $injector, customService, $stateParams, $timeout, $state, $ocLazyLoad, $lazyLoad, snippets) {
+        var qa = this;
+        angular.forEach(apiService, function (method, methodName) {
+            qa[methodName] = method
+        });
+        qa.$service = function (name) {
+            return $injector.get(name);
+        };
 
 
+        loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, pageData.sources);
+        injectCustomJs($injector, pageData.customJs);
         // $scope.$go = function (pageName, params) {
         //     var _params = {};
         //     if (angular.isObject(params)) angular.extend(_params, params);
@@ -64,47 +74,59 @@
         // };
 
         // angular.extend(customPage, $stateParams);
-
-
-        setModelData(pageData, pageData.cssKey);
-
-        function setModelData(val, key) {
-            $timeout(function () {
-                customPage.pageData = val;
-                customPage.html = customService.compileAll(val.content);
-                customPage.js = val.js;
-                customPage.sources = val.sources;
-            }, 0);
-        }
     }
 
     /* @ngInject */
-    function PreviewFrameController($lazyLoad, apiService, $injector, $scope, customService, $stateParams, $timeout, $state) {
-        var customPage = this;
-        // angular.extend(customPage, $stateParams);
-
-
-        window.refreshPreview = function (data, type) {
-            switch (type) {
-                case 'init':
-                    $lazyLoad.load(data, $stateParams.pageName).then(function (pageData) {
-                        setModelData(pageData);
-                    });
-                    break;
-                default:
-                    setModelData(data);
-                    break;
-            }
+    function PreviewFrameCtrl($lazyLoad, apiService, $injector, snippets,$ocLazyLoad,  $scope, customService, $stateParams, $timeout, $state) {
+        var qa = this;
+        angular.forEach(apiService, function (method, methodName) {
+            qa[methodName] = method
+        });
+        qa.$service = function (name) {
+            return $injector.get(name);
         };
-        window.parent.initPreviewFrame();
+        var pageData = window._previewPageData;
+        console.log($stateParams);
+        loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, pageData.sources);
+        injectCustomJs($injector, pageData.customJs);
 
-        function setModelData(val) {
-            $timeout(function () {
-                customPage.pageData = val;
-                customPage.html = customService.compileAll(val.content);
-                customPage.js = val.js;
-                customPage.sources = val.sources;
-            }, 0);
+    }
+
+
+    function loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, sources) {
+        var defered = [];
+        angular.forEach(sources, function (val) {
+            if (val.src.search(/.*(\.js$|\.js?)/) !== -1 && val.defer) defered.push(val.src);
+        });
+
+        var fireLoadEvent = snippets.debounce(function () {
+            // $(element).removeClass('ng-hide');
+            $(window).trigger('load');
+            $('body,html').removeClass('qa-loading');
+        }, 100);
+
+        $lazyLoad.getDownloadUrls(defered).then(function (res) {
+            $ocLazyLoad.load({serie: true, files: res}).then(fireLoadEvent).catch(fireLoadEvent);
+        });
+    }
+
+    function injectCustomJs($injector, customJs) {
+        if (customJs) {
+            var js;
+            if (customJs.search('\/*@ngController*\/') !== -1) {
+                try {
+                    eval("js =" + customJs);
+                    if (angular.isFunction(js) || (angular.isArray(js) && angular.isFunction(js[js.length]))) {
+                        $injector.invoke(js, ctrl, {"$scope": $scope});
+                    }
+                } catch (e) {
+                }
+            } else {
+                try {
+                    eval(customJs);
+                } catch (e) {
+                }
+            }
         }
     }
 })();

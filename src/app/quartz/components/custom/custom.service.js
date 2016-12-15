@@ -8,21 +8,21 @@
     function CustomService() {
 
         var emptyTags = {
-                    area: 1,
-                    base: 1,
-                    basefont: 1,
-                    br: 1,
-                    col: 1,
-                    frame: 1,
-                    hr: 1,
-                    img: 1,
-                    input: 1,
-                    isindex: 1,
-                    link: 1,
-                    meta: 1,
-                    param: 1,
-                    embed: 1
-                };
+            area: 1,
+            base: 1,
+            basefont: 1,
+            br: 1,
+            col: 1,
+            frame: 1,
+            hr: 1,
+            img: 1,
+            input: 1,
+            isindex: 1,
+            link: 1,
+            meta: 1,
+            param: 1,
+            embed: 1
+        };
 
         function isEmptyTag(name) {
             if (name.charAt(0) == '?') {
@@ -73,8 +73,8 @@
         //     return result;
         // }
 
-        function buildLayout(layouts){
-            var res='';
+        function buildLayout(layouts) {
+            var res = '';
             angular.forEach(layouts, function (layout, breakpoint) {
                 var _breakpoint = breakpoint === 'all' ? '' : '-' + breakpoint;
                 angular.forEach(layout, function (value, key) {
@@ -104,18 +104,19 @@
             });
             return res;
         }
+
         //the followings only work properly after getAllTemplates() is resolved, remember to add resolve property of this on the state config file.
         function compileTag(item) {
             item = item || {};
             var content,
                 tag = item.tag || 'div',
                 singleton = isEmptyTag(tag),
-                type=item.type;
+                type = item.type;
 
             if (item.content) {
                 content = item.content;
                 if (type === 'text') return content;
-            }  else if (type === 'tag') { //tag without content;
+            } else if (type === 'tag') { //tag without content;
                 content = '<!--include-->'
             } else {
                 content = '';
@@ -126,7 +127,7 @@
                 res += 'id="' + item.id + '" '
             }
             if (item.layout) {
-                res+=buildLayout(item.layout);
+                res += buildLayout(item.layout);
             }
 
 
@@ -160,17 +161,20 @@
             });
             return html;
         }
-        function compileAll(containers, canvas){
-            var _canvas=angular.copy(canvas)||{};
-            _canvas.content ='<!--include-->';
-            _canvas.tag='div';
-            _canvas.style =  _canvas.style||'';
+
+        function compileAll(containers, canvas) {
+            if(!canvas) return compile(containers);
+            var _canvas = angular.copy(canvas) || {};
+            _canvas.content = '<!--include-->';
+            _canvas.tag = 'div';
+            _canvas.style = _canvas.style || '';
+            $('body,html').addClass('qa-loading');
             return compileTag(_canvas).replace('<!--include-->', compile(containers))
         }
 
         return {
             compile: compile,
-            compileAll:compileAll,
+            compileAll: compileAll,
             compileTag: compileTag
         }
     }
