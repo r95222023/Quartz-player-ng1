@@ -7,7 +7,7 @@
 
     /*@ngInject*/
     function PreviewService($state, $stateParams) {
-        window.refreshPreview = function (id, data) {
+        window.refreshPreview = function (data) {
             window._previewPageData = data;
             $state.go('previewFrame', $stateParams, {reload: true});
         };

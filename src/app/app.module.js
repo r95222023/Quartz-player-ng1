@@ -13,11 +13,10 @@
             extra=res.preset.dependencies;
         }
         // load if following modules exist
-        ['app.custom','ngMaterial','md.data.table','angulartics','angulartics.google.analytics'].forEach(function(extraMod){
+        ['app.custom','app.plugins','ngMaterial','md.data.table','angulartics','angulartics.google.analytics'].forEach(function(extraMod){
             try{
                 angular.module(extraMod);
                 extra.push(extraMod);
-
             } catch(e){}
         });
 

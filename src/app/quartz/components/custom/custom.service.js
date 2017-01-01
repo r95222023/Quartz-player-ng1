@@ -113,6 +113,9 @@
                 singleton = isEmptyTag(tag),
                 type = item.type;
 
+            if(item.type==='widget'){
+                return '<custom-widget name="'+item.widget+'"></custom-widget>'
+            }
             if (item.content) {
                 content = item.content;
                 if (type === 'text') return content;
@@ -163,12 +166,10 @@
         }
 
         function compileAll(containers, canvas) {
-            if(!canvas) return compile(containers);
             var _canvas = angular.copy(canvas) || {};
+            if(_canvas.skip) return compile(containers);
             _canvas.content = '<!--include-->';
-            _canvas.tag = 'div';
             _canvas.style = _canvas.style || '';
-            $('body,html').addClass('qa-loading');
             return compileTag(_canvas).replace('<!--include-->', compile(containers))
         }
 

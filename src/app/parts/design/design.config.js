@@ -10,7 +10,7 @@
         var customPageURL = (_core.util.site.domain? '/:pageName': '/'+_core.util.site.siteName+'/:pageName')+'/?params&params2';
         $stateProvider
             .state('previewFrame', {
-                url: '/preview/?params',
+                url: '/preview/:siteName/:pageName/?params',
                 views: {
                     'root': {
                         controller: 'PreviewFrameController',
@@ -25,6 +25,8 @@
                     }
                 },
                 params: {
+                    siteName:'',
+                    pageName:'',
                     params: ''
                 },
                 resolve: {
@@ -43,6 +45,7 @@
                         controller: 'CustomPageCtrl',
                         controllerAs: 'qa',
                         templateProvider: ['pageData','customService', function (pageData,customService) {
+                            $('body,html').addClass('qa-loading');
                             return customService.compileAll(pageData.content, pageData.canvas);
                         }]
                     }

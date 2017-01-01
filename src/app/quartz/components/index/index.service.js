@@ -10,28 +10,28 @@
 
         ////////////////
 
-        function add(type, id, body, index) {
-            return toQueue("add", index || false, type, id, body)
+        function add(type, id, body) {
+            return toQueue("add", type, id, body)
         }
 
-        function update(type, id, body, index) {
-            return toQueue("update", index || false, type, id, body)
+        function update(type, id, body) {
+            return toQueue("update", type, id, body)
         }
 
-        function remove(type, id, index) {
-            return toQueue("remove", index || false, type, id)
+        function remove(type, id) {
+            return toQueue("remove", type, id)
         }
 
-        function toQueue(task, index, type, id, body) {
-            if (!index && !_core.util.site.siteName) {
-                console.log("Please select a site or enter an index");
+        function toQueue(task, type, id, body) {
+            if (!_core.util.site.siteName) {
+                console.log("Please select a site");
                 return;
             }
 
             var obj = {
                 "_state":"index"
             };
-            obj.index = typeof index==='string' ? index : _core.util.site.siteName;
+            obj.siteName = _core.util.site.siteName;
             if (angular.isString(task)) obj.task = task;
             if (angular.isString(type)) obj.type = type;
             if (angular.isString(id)) obj.id = id;
@@ -45,6 +45,5 @@
             update: update,
             remove: remove
         }
-
     }
 })();

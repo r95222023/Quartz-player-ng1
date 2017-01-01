@@ -16,7 +16,6 @@
         $scope.$service = function (name) {
             return $injector.get(name);
         };
-        console.log($scope);
         $scope.test = function () {
             console.log('test1');
         };
@@ -54,8 +53,9 @@
     /* @ngInject */
     function CustomPageCtrl(pageData, apiService, $scope, $injector, customService, $stateParams, $timeout, $state, $ocLazyLoad, $lazyLoad, snippets) {
         var qa = this;
-        angular.forEach(apiService, function (method, methodName) {
-            qa[methodName] = method
+
+        angular.forEach(apiService, function (apiObj, type) {
+            $scope[type] = apiObj
         });
         qa.$service = function (name) {
             return $injector.get(name);
@@ -64,32 +64,23 @@
 
         loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, pageData.sources);
         injectCustomJs($injector, pageData.customJs);
-        // $scope.$go = function (pageName, params) {
-        //     var _params = {};
-        //     if (angular.isObject(params)) angular.extend(_params, params);
-        //     $state.go('customPage', {
-        //         pageName: pageName || $stateParams.pageName,
-        //         params: JSON.stringify(_params)
-        //     });
-        // };
-
-        // angular.extend(customPage, $stateParams);
     }
 
     /* @ngInject */
-    function PreviewFrameCtrl($lazyLoad, apiService, $injector, snippets,$ocLazyLoad,  $scope, customService, $stateParams, $timeout, $state) {
+    function PreviewFrameCtrl($lazyLoad, apiService, $injector, snippets,$ocLazyLoad, injectCSS, $scope, customService, $stateParams, $timeout) {
         var qa = this;
-        angular.forEach(apiService, function (method, methodName) {
-            qa[methodName] = method
+        angular.forEach(apiService, function (apiObj, type) {
+            $scope[type] = apiObj
         });
         qa.$service = function (name) {
             return $injector.get(name);
         };
-        var pageData = window._previewPageData;
-        console.log($stateParams);
-        loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, pageData.sources);
-        injectCustomJs($injector, pageData.customJs);
 
+        var pageData = window._previewPageData;
+        $lazyLoad.load(pageData, $stateParams.pageName).then(function () {
+            loadDeferedJs($lazyLoad, $ocLazyLoad, snippets, pageData.sources);
+            injectCustomJs($injector, pageData.customJs);
+        });
     }
 
 

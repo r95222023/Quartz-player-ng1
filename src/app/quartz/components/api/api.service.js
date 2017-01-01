@@ -4,11 +4,19 @@
     angular
         .module('quartz.components')
         .factory('apiService', ApiService);
-    /* @ngInject */
-    function ApiService($firebaseStorage, $timeout, $auth, $state, $stateParams) {
-        var queryListCache = {};
 
+    /* @ngInject */
+    function ApiService($firebaseStorage, $timeout, $auth, $state, $stateParams, $injector) {
+        var $mdMedia;
+        try {
+            $mdMedia = $injector.get('$mdMedia');
+        } catch (e) {
+        }
+
+        //basics
+        var queryListCache = {};
         function queryList(type, params) {
+
             var _params = {};
             if (typeof params === 'string') {
                 ['type', 'cate', 'subCate', 'queryString', 'tag', 'sort'].forEach(function (attr) {
@@ -16,14 +24,13 @@
                     if (match) _params[attr] = match[1];
                 });
             } else {
-                _params = params;
+                _params = params||{};
             }
-            var sort = _params.sort || (type === 'product' ? 'itemId' : 'id'),
+            var sort = _params.sort || 'id',
                 id = type + 'c' + _params.cate + 's' + _params.subCate + 'q' + _params.queryString + 't' + _params.tag + 's' + sort;
             queryListCache[id] = queryListCache[id] || {};
 
             _params.type = type;
-            _params.index = _core.util.site.siteName;
 
             if (queryListCache[id].load === 'loaded') {
                 return queryListCache[id];
@@ -48,13 +55,11 @@
         }
 
         function queryProduct(params) {
-            angular.extend(params || {}, {type: 'product'});
-            return queryList(params);
+            return queryList('product', params);
         }
 
         function queryArticle(params) {
-            angular.extend(params || {}, {type: 'article'});
-            return queryList(params);
+            return queryList('article', params);
         }
 
         //// categories and tags
@@ -70,6 +75,8 @@
                     return cate[_type].categories[cateId][1][subCateId];
                 } else if (angular.isNumber(cateId) && !angular.isNumber(subCateId)) {
                     return cate[_type].categories[cateId][0];
+                } else {
+                    return cate[_type].categories;
                 }
             } else if (cate[_type].load === 'loading') {
                 return
@@ -91,26 +98,69 @@
             return $firebaseStorage.get('article?type=detail&id=' + id);
         }
 
-        //auth
-        function login(pageName) {
-            var toParams = {
-                pageName: pageName,
-                params: $stateParams
-            };
-            if ($state.name !== 'customPage') {
-                toParams.stateName = $state.name;
+        function getSitePreload() {
+            var siteName = _core.util.site.siteName;
+            if (_core.util.site.cache[siteName]) {
+                return _core.util.site.cache[siteName].preload || {};
+            } else {
+                return {};
             }
-            $state.go('customPage.login', toParams);
         }
 
+        function go(pageName, params) {
+            var _params = params || {};
+            $state.go('customPage', {
+                pageName: pageName || $stateParams.pageName,
+                params: angular.isObject(params) ? JSON.stringify(_params) : params
+            });
+        }
+
+        //auth
+        function login(email, pass) {
+            return $auth.signInWithEmailAndPassword(email, pass)
+        }
+
+        function loginWithProvider(provider, opt) {
+            var _opt = opt || {};
+            if ($mdMedia && $mdMedia('xs')) {
+                var homeUrl = window.location.href.split('#')[0] + '#' + config.defaultUrl;
+                _opt.popup = false;
+                _opt.remember = 'default';
+                window.location.href = homeUrl;
+                return $auth.loginWithProvider(provider, _opt);
+            } else {
+                return $auth.loginWithProvider(provider, _optn).catch(showError).then(function (res) {
+                    return $auth.checkIfAccountExistOnFb(res.user)
+                }).then($auth.createAccount);
+            }
+        }
+
+        function logout() {
+            return $auth.signOut();
+        }
+
+        function user() {
+            return $auth.currentUser
+        }
+
+
         return {
-            queryList: queryList,
-            queryProduct: queryProduct,
-            queryArticle: queryArticle,
-            getCate: getCate,
-            getProduct: getProduct,
-            getArticle: getArticle,
-            auth: $auth
+            basics: {
+                queryList: queryList,
+                queryProduct: queryProduct,
+                queryArticle: queryArticle,
+                getCate: getCate,
+                getProduct: getProduct,
+                getArticle: getArticle,
+                getSitePreload: getSitePreload,
+                go: go
+            },
+            auth: {
+                user: user,
+                login: login,
+                loginWithProvider: loginWithProvider,
+                logout: logout
+            }
         };
     }
 })();

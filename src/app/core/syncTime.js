@@ -30,10 +30,10 @@
                 systemtime = new Date(timestring);
                 systemtime.setMilliseconds(systemtime.getMilliseconds() + (latency / 2));
                 offset = systemtime - (new Date());
-
-                resolve(function () {
+                window._core.getSyncTime = function () {
                     if (offset) return (new Date()).getTime() + offset;
-                });
+                };
+                resolve(window._core.getSyncTime);
             };
             r.send(null);
         });
